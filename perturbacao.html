@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>BlueLava Community - Perturbação</title>
+  <title>BlueLava Community - Perturbação (neurodivergência)</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
     :root{--primary:#4A90E2;--bg:#f4f7f6;--white:#fff;--text:#333}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Roboto,Arial,sans-serif}
+    html,body{margin:0;color:var(--text);font-family:Roboto,Arial,sans-serif;background-color:#0b1f3d;background-image:url('assets/images/background website.jpeg');background-repeat:no-repeat;background-position:center center;background-size:cover;background-attachment:fixed}
     .wrap{max-width:980px;margin:22px auto;padding:0 16px}
     .card{background:#fff;border:1px solid #ececec;border-radius:12px;padding:18px;box-shadow:0 10px 26px rgba(0,0,0,.06)}
     .title{margin:8px 0 4px;font-size:1.6rem}
@@ -29,7 +29,7 @@
     <a class="back" href="community.html">← Voltar à comunidade</a>
 
     <section class="card" id="detailsCard" style="display:none">
-      <img id="dImage" src="" alt="Perturbação" style="width:100%;height:280px;object-fit:cover;border-radius:10px">
+      <img id="dImage" src="" alt="Perturbação (neurodivergência)" style="width:100%;height:280px;object-fit:cover;border-radius:10px">
       <h1 id="dTitle" class="title"></h1>
       <div id="dMeta" class="meta"></div>
       <p id="dDesc"></p>
@@ -62,7 +62,7 @@
         id: 1,
         category: 'Stress',
         prevalencePt: 25,
-        image: 'assets/images/stress-real.jpg',
+        image: 'assets/images/stress-real.png',
         shortDescription: 'Resposta física e emocional a sobrecarga, comum em contextos de trabalho de alta pressão.',
         definition: 'Stress psicológico é uma resposta adaptativa do organismo a exigências percebidas como superiores aos recursos disponíveis. Em exposição prolongada, associa-se a pior saúde mental e física.',
         simpleExplanation: 'No dia a dia, pode parecer que a cabeça nunca desliga: irritação fácil, tensão no corpo, cansaço constante e sensação de estar sempre no limite.',
@@ -73,7 +73,7 @@
         id: 2,
         category: 'Ansiedade',
         prevalencePt: 16.5,
-        image: 'assets/images/ansiedade-real.jpg',
+        image: 'assets/images/ansiedade-real.png',
         shortDescription: 'Preocupação excessiva, persistente e difícil de controlar, com sintomas físicos associados.',
         definition: 'As perturbações de ansiedade incluem medo e preocupação desproporcionais, hipervigilância e sintomas somáticos (por exemplo, palpitações e tensão), com impacto funcional relevante.',
         simpleExplanation: 'Pode sentir-se como viver em alerta permanente: pensar no pior cenário, dificuldade em relaxar, coração acelerado e preocupação que não passa.',
@@ -84,7 +84,7 @@
         id: 3,
         category: 'Burnout',
         prevalencePt: 10,
-        image: 'assets/images/burnout-real.jpg',
+        image: 'assets/images/burnout-real.png',
         shortDescription: 'Exaustão ligada ao trabalho, com distanciamento emocional e menor eficácia profissional.',
         definition: 'Burnout é uma síndrome associada ao stress crónico no trabalho, marcada por exaustão, cinismo/distanciamento e redução de eficácia profissional.',
         simpleExplanation: 'É como acordar já sem energia para o trabalho, perder motivação e sentir que até tarefas simples ficam pesadas e difíceis de cumprir.',
@@ -95,9 +95,9 @@
         id: 4,
         category: 'Depressão',
         prevalencePt: 7.9,
-        image: 'assets/images/depressao-real.jpg',
+        image: 'assets/images/depressao-real.png',
         shortDescription: 'Humor deprimido persistente, perda de interesse e alterações de sono, energia e concentração.',
-        definition: 'A depressão é uma perturbação mental com tristeza persistente e/ou anedonia, frequentemente acompanhada por alterações do sono, apetite, energia, cognição e risco suicidário.',
+        definition: 'A depressão é uma perturbação (neurodivergência) mental com tristeza persistente e/ou anedonia, frequentemente acompanhada por alterações do sono, apetite, energia, cognição e risco suicidário.',
         simpleExplanation: 'No quotidiano, pode traduzir-se em tristeza constante, falta de vontade para coisas que antes davam prazer e sensação de vazio ou desesperança.',
         sourceLabel: 'WHO - Depressive disorder',
         sourceUrl: 'https://www.who.int/news-room/fact-sheets/detail/depression'
@@ -106,9 +106,9 @@
         id: 5,
         category: 'Pânico',
         prevalencePt: 4,
-        image: 'assets/images/panico-real.jpg',
+        image: 'assets/images/panico-real.png',
         shortDescription: 'Ataques súbitos de medo intenso com sintomas físicos marcantes.',
-        definition: 'A perturbação de pânico caracteriza-se por ataques de pânico inesperados e recorrentes, seguidos de preocupação persistente com novos ataques e alterações comportamentais.',
+        definition: 'A perturbação (neurodivergência) de pânico caracteriza-se por ataques de pânico inesperados e recorrentes, seguidos de preocupação persistente com novos ataques e alterações comportamentais.',
         simpleExplanation: 'Pode surgir como uma onda intensa e repentina de medo, com falta de ar, tontura e sensação de perder o controlo, mesmo sem perigo real imediato.',
         sourceLabel: 'NHS - Panic disorder',
         sourceUrl: 'https://www.nhs.uk/mental-health/conditions/panic-disorder/'
@@ -117,9 +117,9 @@
         id: 6,
         category: 'TOC',
         prevalencePt: 1.5,
-        image: 'assets/images/toc-real.jpg',
+        image: 'assets/images/toc-real.png',
         shortDescription: 'Obsessões intrusivas e compulsões repetitivas para reduzir ansiedade.',
-        definition: 'A perturbação obsessivo-compulsiva envolve obsessões (pensamentos intrusivos) e/ou compulsões (rituais), clinicamente significativos e com prejuízo funcional.',
+        definition: 'A perturbação (neurodivergência) obsessivo-compulsiva envolve obsessões (pensamentos intrusivos) e/ou compulsões (rituais), clinicamente significativos e com prejuízo funcional.',
         simpleExplanation: 'Pode parecer uma necessidade difícil de controlar de repetir verificações ou rituais para aliviar ansiedade, mesmo sabendo que isso consome tempo e energia.',
         sourceLabel: 'NIMH - Obsessive-Compulsive Disorder',
         sourceUrl: 'https://www.nimh.nih.gov/health/topics/obsessive-compulsive-disorder-ocd'
@@ -128,12 +128,23 @@
         id: 7,
         category: 'Esquizofrenia',
         prevalencePt: 0.43,
-        image: 'assets/images/esquizofrenia-real.jpg',
-        shortDescription: 'Perturbação grave com possíveis alucinações, delírios e desorganização do pensamento.',
-        definition: 'A esquizofrenia é uma perturbação mental grave, heterogénea, com sintomas psicóticos e alterações cognitivas/funcionais que exigem acompanhamento clínico contínuo.',
+        image: 'assets/images/esquizofrenia-real.png',
+        shortDescription: 'Perturbação (neurodivergência) grave com possíveis alucinações, delírios e desorganização do pensamento.',
+        definition: 'A esquizofrenia é uma perturbação (neurodivergência) mental grave, heterogénea, com sintomas psicóticos e alterações cognitivas/funcionais que exigem acompanhamento clínico contínuo.',
         simpleExplanation: 'Em termos práticos, a pessoa pode ter experiências muito reais para si (como ouvir vozes), dificuldade em organizar pensamentos e maior necessidade de apoio clínico regular.',
         sourceLabel: 'WHO - Schizophrenia',
         sourceUrl: 'https://www.who.int/news-room/fact-sheets/detail/schizophrenia'
+      },
+      {
+        id: 8,
+        category: 'Autismo',
+        prevalencePt: 1.2,
+        image: 'assets/images/autismo-real.png',
+        shortDescription: 'Condição do neurodesenvolvimento com diferenças na comunicação social e padrões de comportamento restritos e repetitivos.',
+        definition: 'Segundo a ICD-11 da OMS (6A02), o autismo é uma condição do neurodesenvolvimento caracterizada por dificuldades persistentes na comunicação e interação social recíproca, e por padrões restritos, repetitivos e inflexíveis de comportamento, interesses ou atividades.',
+        simpleExplanation: 'No quotidiano, pode traduzir-se em formas próprias de comunicar, necessidade de rotinas previsíveis e maior sensibilidade sensorial (sons, luzes, texturas), com perfis muito diferentes entre pessoas.',
+        sourceLabel: 'NICE (Europa) CG170 + referência ICD-11 da OMS',
+        sourceUrl: 'https://www.nice.org.uk/guidance/cg170'
       }
     ];
 
@@ -230,7 +241,7 @@
       const id = getId();
       const disorder = disorders.find(function(item) { return item.id === id; });
       if (!disorder) {
-        document.querySelector('.wrap').innerHTML = '<p>Perturbação não encontrada. <a href="community.html">Voltar</a></p>';
+        document.querySelector('.wrap').innerHTML = '<p>Perturbação (neurodivergência) não encontrada. <a href="community.html">Voltar</a></p>';
         return;
       }
 
