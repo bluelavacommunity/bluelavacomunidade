@@ -13,7 +13,12 @@
       background:#0b1f3d url('assets/images/background website.jpeg') center center / cover no-repeat fixed;
     }
     header{background:linear-gradient(180deg,#000f2a,#2b4cb8);color:#fff;padding:20px;text-align:center}
-    .stats-banner{background:var(--accent);color:#fff;padding:10px;text-align:center;font-weight:700}
+    .stats-banner{background:var(--accent);color:#fff;padding:10px 0;font-weight:700;overflow:hidden}
+    .ticker{display:flex;overflow:hidden;white-space:nowrap}
+    .ticker-track{display:inline-flex;align-items:center;gap:30px;padding-right:30px;min-width:max-content;animation:ticker 120s linear infinite}
+    .stats-banner:hover .ticker-track{animation-play-state:paused}
+    .tip{font-size:.96rem}
+    @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-100%)}}
     #chart-section{width:100%;background:linear-gradient(180deg,#fff,#f7fbff);padding:18px 0}
     #chart-canvas{width:100%;max-width:980px;margin:0 auto;padding:0 16px;box-sizing:border-box}
     nav{background:#fff;position:sticky;top:0;padding:8px 0;box-shadow:0 4px 10px rgba(0,0,0,.04);z-index:10}
@@ -27,7 +32,7 @@
     .social-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#000;color:#fff;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.28);transition:transform .15s ease,opacity .15s ease}
     .social-btn:hover{transform:translateY(-1px);opacity:.92}
     .social-btn i{font-size:18px}
-    @media(max-width:700px){#chart-canvas{padding:0 12px}}
+    @media(max-width:700px){#chart-canvas{padding:0 12px}.ticker-track{animation-duration:160s}.tip{font-size:.9rem}}
   </style>
 </head>
 <body>
@@ -42,7 +47,32 @@
     </div>
   </header>
 
-  <div class="stats-banner">⚠️ Estatística Nacional: 1 em cada 5 pessoas em Portugal sofre de uma perturbação (neurodivergência) mental.</div>
+  <div class="stats-banner" role="region" aria-label="Dicas rápidas de saúde mental com fontes fidedignas">
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="tip">🫁 <strong>Pânico:</strong> durante um ataque, respira como se enchesses e esvaziasses um balão bem devagar: entra pelo nariz 4 segundos, sai pela boca 6 segundos.</span>
+        <span class="tip">🧠 <strong>Ansiedade:</strong> faz o jogo 5-4-3-2-1: diz 5 coisas que vês, 4 que tocas, 3 que ouves, 2 que cheiras e 1 que saboreias.</span>
+        <span class="tip">💼 <strong>Stress:</strong> usa a regra 25-5: estuda ou trabalha 25 minutos e descansa 5 para esticar o corpo e beber água.</span>
+        <span class="tip">🔥 <strong>Burnout:</strong> imagina que a tua bateria está a 5%: para, come, dorme melhor e diz "agora não consigo" a tarefas extra.</span>
+        <span class="tip">🌤️ <strong>Depressão:</strong> escolhe uma micro-missão por dia, como tomar banho, abrir a janela e caminhar 10 minutos ao sol.</span>
+        <span class="tip">🔁 <strong>TOC:</strong> quando vier a vontade de repetir um ritual, tenta esperar só 2 minutos antes de agir e aumenta esse tempo aos poucos.</span>
+        <span class="tip">🗣️ <strong>Esquizofrenia:</strong> se ouvires vozes, fala com alguém de confiança e usa um plano simples: "ligar, sentar, respirar, pedir ajuda".</span>
+        <span class="tip">🧩 <strong>Autismo:</strong> leva um "kit calma" (auscultadores, objeto favorito, água) e faz pausas curtas em locais silenciosos.</span>
+        <span class="tip">🚨 <strong>Crise aguda:</strong> procura ajuda imediata (112) ou SNS 24: 808 24 24 24.</span>
+      </div>
+      <div class="ticker-track" aria-hidden="true">
+        <span class="tip">🫁 <strong>Pânico:</strong> durante um ataque, respira como se enchesses e esvaziasses um balão bem devagar: entra pelo nariz 4 segundos, sai pela boca 6 segundos.</span>
+        <span class="tip">🧠 <strong>Ansiedade:</strong> faz o jogo 5-4-3-2-1: diz 5 coisas que vês, 4 que tocas, 3 que ouves, 2 que cheiras e 1 que saboreias.</span>
+        <span class="tip">💼 <strong>Stress:</strong> usa a regra 25-5: estuda ou trabalha 25 minutos e descansa 5 para esticar o corpo e beber água.</span>
+        <span class="tip">🔥 <strong>Burnout:</strong> imagina que a tua bateria está a 5%: para, come, dorme melhor e diz "agora não consigo" a tarefas extra.</span>
+        <span class="tip">🌤️ <strong>Depressão:</strong> escolhe uma micro-missão por dia, como tomar banho, abrir a janela e caminhar 10 minutos ao sol.</span>
+        <span class="tip">🔁 <strong>TOC:</strong> quando vier a vontade de repetir um ritual, tenta esperar só 2 minutos antes de agir e aumenta esse tempo aos poucos.</span>
+        <span class="tip">🗣️ <strong>Esquizofrenia:</strong> se ouvires vozes, fala com alguém de confiança e usa um plano simples: "ligar, sentar, respirar, pedir ajuda".</span>
+        <span class="tip">🧩 <strong>Autismo:</strong> leva um "kit calma" (auscultadores, objeto favorito, água) e faz pausas curtas em locais silenciosos.</span>
+        <span class="tip">🚨 <strong>Crise aguda:</strong> procura ajuda imediata (112) ou SNS 24: 808 24 24 24.</span>
+      </div>
+    </div>
+  </div>
 
   <section id="chart-section">
     <div id="chart-canvas">
