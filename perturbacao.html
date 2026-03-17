@@ -3,18 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>BlueLava Community - Perturbação (neurodivergência)</title>
+  <title>BlueLava — Perturbação (detalhe)</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
     :root{--primary:#4A90E2;--bg:#f4f7f6;--white:#fff;--text:#333}
-    html,body{margin:0;color:var(--text);font-family:Roboto,Arial,sans-serif;background-color:#0b1f3d;background-image:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),url('assets/images/background-fixed.jpg'),url('assets/images/background website.jpeg');background-repeat:no-repeat,no-repeat,no-repeat;background-position:center center,center center,center center;background-size:cover,cover,cover;background-attachment:fixed,fixed,fixed}
+    html,body{margin:0;color:var(--text);font-family:Roboto,Arial,sans-serif;background-color:#0b1f3d}
     .top-banner{background:linear-gradient(180deg,#000f2a,#2b4cb8);color:#fff;padding:14px 16px}
     .top-banner-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
     .banner-title{font-weight:700;font-size:1.05rem}
-    .social-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#000;color:#fff;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.28);transition:transform .15s ease,opacity .15s ease}
-    .social-btn:hover{transform:translateY(-1px);opacity:.92}
-    .social-btn i{font-size:18px}
     .wrap{max-width:980px;margin:22px auto;padding:0 16px}
     .card{background:#fff;border:1px solid #ececec;border-radius:12px;padding:18px;box-shadow:0 10px 26px rgba(0,0,0,.06)}
     .title{margin:8px 0 4px;font-size:1.6rem}
@@ -24,11 +21,15 @@
     .story-call{margin:0 0 12px;padding:10px 12px;background:#fff8e8;border:1px solid #ffe2a6;border-radius:8px;font-weight:700;color:#6a4a00}
     .like-popcorn{background:#fff3d9;color:#6a4a00;border:1px solid #ffd48a;border-radius:999px;padding:6px 12px;cursor:pointer;font-weight:700}
     input,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;font-family:inherit}
-    textarea{min-height:130px;resize:vertical}
+    textarea{min-height:110px;resize:vertical}
     button{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:700}
     .comment{background:#fafafa;border:1px solid #ececec;border-radius:10px;padding:12px;margin:10px 0}
     .row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
     .back{display:inline-block;margin-bottom:12px;text-decoration:none;color:#1a5eb8;font-weight:700}
+    .dis-image{width:100%;height:280px;object-fit:cover;border-radius:10px}
+    .source{margin-top:18px;font-size:.95rem}
+    .source a{color:var(--primary)}
+    @media(max-width:700px){.dis-image{height:200px}}
   </style>
 </head>
 <body>
@@ -36,10 +37,6 @@
     <div class="top-banner-inner">
       <img src="logo.png" alt="logo" style="max-width:120px;display:block;margin:0">
       <div class="banner-title">Comunidade Blue Lava</div>
-      <div style="margin-left:8px;display:flex;gap:10px;align-items:center">
-        <a class="social-btn" href="https://chat.whatsapp.com/I2DYIq1923JKIiv37BQ2LE?mode=hqctswa" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-        <a class="social-btn" href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
-      </div>
     </div>
   </header>
 
@@ -47,28 +44,28 @@
     <a class="back" href="community.html">← Voltar à comunidade</a>
 
     <section class="card" id="detailsCard" style="display:none">
-      <img id="dImage" src="" alt="Perturbação (neurodivergência)" style="width:100%;height:280px;object-fit:cover;border-radius:10px">
+      <img id="dImage" class="dis-image" src="" alt="Perturbação (neurodivergência)">
       <h1 id="dTitle" class="title"></h1>
       <div id="dMeta" class="meta"></div>
       <p id="dDesc"></p>
-      <p><strong>Definição:</strong> <span id="dDefinition"></span></p>
-      <p><strong>Fonte científica:</strong> <a id="dSource" href="#" target="_blank" rel="noopener noreferrer"></a></p>
+      <div id="dDefinition"></div>
+      <p class="source"><strong>Fonte científica:</strong> <a id="dSource" href="#" target="_blank" rel="noopener noreferrer"></a></p>
       <div class="simple-box">
         <p style="margin:0 0 8px"><strong>Explicação simples:</strong> <span id="dSimple"></span></p>
-        <a href="#commentsCard" style="font-weight:700;color:#1a5eb8;text-decoration:none">Identificas-te com isto? Ir para comentários ↓</a>
+        <a href="#commentsCard" style="font-weight:700;color:#1a5eb8;text-decoration:none">Ir para comentários ↓</a>
       </div>
     </section>
 
     <section class="card comments" id="commentsCard" style="display:none">
       <h2>Comentários da comunidade</h2>
-      <p class="story-call">Conta a tua história — podes publicar com nome ou em anónimo.</p>
-      <div class="row" style="margin-bottom:10px">
-        <input id="nameInput" placeholder="Nome (opcional)">
-        <label style="display:flex;align-items:center;gap:6px;white-space:nowrap"><input id="anonInput" type="checkbox"> Publicar em anónimo</label>
+      <p class="story-call">O seu testemunho pode ajudar alguém — publica com nome ou em anónimo.</p>
+      <div style="margin-bottom:10px">
+        <input id="nameInput" placeholder="O seu nome (opcional)">
+        <label style="display:inline-flex;align-items:center;gap:6px;margin-left:12px"><input id="anonInput" type="checkbox"> Anónimo</label>
       </div>
-      <textarea id="textInput" placeholder="Partilha a tua história..."></textarea>
+      <textarea id="textInput" placeholder="Como é que lida com a perturbação? Que estratégias usa?"></textarea>
       <div style="text-align:right;margin-top:10px">
-        <button id="sendBtn">Publicar comentário</button>
+        <button id="sendBtn">Publicar Testemunho</button>
       </div>
       <div id="commentsList" style="margin-top:14px"></div>
     </section>
@@ -82,10 +79,15 @@
         prevalencePt: 25,
         image: 'assets/images/stress-real.png',
         shortDescription: 'Resposta física e emocional a sobrecarga, comum em contextos de trabalho de alta pressão.',
-        definition: 'Stress psicológico é uma resposta adaptativa do organismo a exigências percebidas como superiores aos recursos disponíveis. Em exposição prolongada, associa-se a pior saúde mental e física.',
         simpleExplanation: 'No dia a dia, pode parecer que a cabeça nunca desliga: irritação fácil, tensão no corpo, cansaço constante e sensação de estar sempre no limite.',
         sourceLabel: 'APA - Stress effects on body',
-        sourceUrl: 'https://www.apa.org/topics/stress/body'
+        sourceUrl: 'https://www.apa.org/topics/stress/body',
+        longDescription: `
+          <p>O stress é uma resposta adaptativa do organismo a exigências percebidas como maiores do que os recursos disponíveis; a curto prazo pode ajudar a enfrentar desafios, mas quando prolongado torna-se prejudicial.</p>
+          <p>Fisicamente envolve ativação do eixo HPA e do sistema nervoso autónomo (cortisol, adrenalina), o que se traduz em sintomas como tensão muscular, perturbações do sono e alterações digestivas.</p>
+          <p>O stress crónico aumenta o risco de doenças cardiovasculares, prejuízo cognitivo e piora do bem-estar mental, frequentemente promovendo ansiedade e depressão numa espiral viciosa.</p>
+          <p>A gestão eficaz combina autocuidado (sono, exercício, alimentação), técnicas de regulação (respiração, relaxamento, mindfulness), ajustes no ambiente e, quando necessário, apoio profissional.</p>
+        `
       },
       {
         id: 2,
@@ -93,10 +95,15 @@
         prevalencePt: 16.5,
         image: 'assets/images/ansiedade-real.png',
         shortDescription: 'Preocupação excessiva, persistente e difícil de controlar, com sintomas físicos associados.',
-        definition: 'As perturbações de ansiedade incluem medo e preocupação desproporcionais, hipervigilância e sintomas somáticos (por exemplo, palpitações e tensão), com impacto funcional relevante.',
-        simpleExplanation: 'Pode sentir-se como viver em alerta permanente: pensar no pior cenário, dificuldade em relaxar, coração acelerado e preocupação que não passa.',
+        simpleExplanation: 'Sente-se em estado de alerta contínuo: preocupações intensas, tensão e sintomas físicos como palpitações ou insónia.',
         sourceLabel: 'NIMH - Anxiety Disorders',
-        sourceUrl: 'https://www.nimh.nih.gov/health/topics/anxiety-disorders'
+        sourceUrl: 'https://www.nimh.nih.gov/health/topics/anxiety-disorders',
+        longDescription: `
+          <p>As perturbações de ansiedade caracterizam-se por preocupação e medo persistentes que interferem com a vida diária; existem várias formas clínicas, como ansiedade generalizada, fobias e perturbação de pânico.</p>
+          <p>Os sintomas incluem componentes cognitivos (ruminação), físicos (tensão, palpitações, dificuldades de sono) e comportamentais (evitamento), e não são proporcionais ao perigo real.</p>
+          <p>As causas são multifatoriais — genética, diferenças neurobiológicas e fatores de life-event — e a investigação aponta para alterações em circuitos cerebrais que regulam o medo.</p>
+          <p>Tratamentos com evidência incluem terapia cognitivo-comportamental (TCC) e, quando indicado, medicação (por exemplo ISRS); técnicas de autoajuda complementares são úteis.</p>
+        `
       },
       {
         id: 3,
@@ -104,10 +111,15 @@
         prevalencePt: 10,
         image: 'assets/images/burnout-real.png',
         shortDescription: 'Exaustão ligada ao trabalho, com distanciamento emocional e menor eficácia profissional.',
-        definition: 'Burnout é uma síndrome associada ao stress crónico no trabalho, marcada por exaustão, cinismo/distanciamento e redução de eficácia profissional.',
-        simpleExplanation: 'É como acordar já sem energia para o trabalho, perder motivação e sentir que até tarefas simples ficam pesadas e difíceis de cumprir.',
+        simpleExplanation: 'Sensação de esgotamento ligada ao trabalho, perda de motivação e sensação de incapacidade para cumprir tarefas.',
         sourceLabel: 'WHO - Burn-out (ICD-11)',
-        sourceUrl: 'https://www.who.int/standards/classifications/frequently-asked-questions/burn-out-an-occupational-phenomenon'
+        sourceUrl: 'https://www.who.int/standards/classifications/frequently-asked-questions/burn-out-an-occupational-phenomenon',
+        longDescription: `
+          <p>O burnout é um fenómeno ocupacional resultante de stress crónico no trabalho, definido pela OMS através de exaustão, distanciamento e perda de eficácia profissional.</p>
+          <p>Surge em contextos com carga excessiva, falta de controlo, reconhecimento insuficiente e fraco apoio social, afetando saúde física e mental.</p>
+          <p>As consequências incluem alterações do sono, maior risco de depressão e redução do desempenho; a prevenção exige medidas organizacionais e individuais.</p>
+          <p>A recuperação combina descanso, limites claros, apoio psicológico e mudanças na organização do trabalho para reduzir a carga e melhorar supervisionamento e cultura.</p>
+        `
       },
       {
         id: 4,
@@ -115,10 +127,15 @@
         prevalencePt: 7.9,
         image: 'assets/images/depressao-real.png',
         shortDescription: 'Humor deprimido persistente, perda de interesse e alterações de sono, energia e concentração.',
-        definition: 'A depressão é uma perturbação (neurodivergência) mental com tristeza persistente e/ou anedonia, frequentemente acompanhada por alterações do sono, apetite, energia, cognição e risco suicidário.',
-        simpleExplanation: 'No quotidiano, pode traduzir-se em tristeza constante, falta de vontade para coisas que antes davam prazer e sensação de vazio ou desesperança.',
+        simpleExplanation: 'Tristeza persistente, perda de interesse em atividades e falta de energia que afetam o dia a dia.',
         sourceLabel: 'WHO - Depressive disorder',
-        sourceUrl: 'https://www.who.int/news-room/fact-sheets/detail/depression'
+        sourceUrl: 'https://www.who.int/news-room/fact-sheets/detail/depression',
+        longDescription: `
+          <p>A depressão implica humor deprimido ou perda de interesse por longos períodos, com alterações no sono, apetite, energia e concentração.</p>
+          <p>As causas são complexas, envolvendo fatores biológicos, psicológicos e sociais; eventos adversos aumentam o risco.</p>
+          <p>Tratamentos eficazes incluem psicoterapias (ex.: TCC), medicação quando indicada e intervenções comunitárias; a deteção precoce melhora o prognóstico.</p>
+          <p>Se existir risco de autoagressão ou ideação suicida, é crucial procurar ajuda imediata; programas comunitários e redução do estigma facilitam o acesso ao tratamento.</p>
+        `
       },
       {
         id: 5,
@@ -126,10 +143,15 @@
         prevalencePt: 4,
         image: 'assets/images/panico-real.png',
         shortDescription: 'Ataques súbitos de medo intenso com sintomas físicos marcantes.',
-        definition: 'A perturbação (neurodivergência) de pânico caracteriza-se por ataques de pânico inesperados e recorrentes, seguidos de preocupação persistente com novos ataques e alterações comportamentais.',
-        simpleExplanation: 'Pode surgir como uma onda intensa e repentina de medo, com falta de ar, tontura e sensação de perder o controlo, mesmo sem perigo real imediato.',
+        simpleExplanation: 'Episódios súbitos de medo intenso com sintomas físicos (falta de ar, palpitações), que podem surgir sem aviso.',
         sourceLabel: 'NHS - Panic disorder',
-        sourceUrl: 'https://www.nhs.uk/mental-health/conditions/panic-disorder/'
+        sourceUrl: 'https://www.nhs.uk/mental-health/conditions/panic-disorder/',
+        longDescription: `
+          <p>Os ataques de pânico são episódios súbitos de medo intenso com sintomas físicos (palpitações, falta de ar, tontura) que normalmente atingem o pico em minutos.</p>
+          <p>Quando recorrentes e acompanhados por preocupação persistente acerca de novos ataques, configura-se a perturbação de pânico, que pode levar a evitamento.</p>
+          <p>As abordagens eficazes incluem terapia cognitivo-comportamental com exposição interoceptiva e, quando necessário, medicação; aprender técnicas de respiração ajuda durante os ataques.</p>
+          <p>Buscar ajuda é indicado se os ataques forem frequentes, se houver medo contínuo de novos ataques ou se o evitamento limitar a vida diária.</p>
+        `
       },
       {
         id: 6,
@@ -137,153 +159,102 @@
         prevalencePt: 1.5,
         image: 'assets/images/toc-real.png',
         shortDescription: 'Obsessões intrusivas e compulsões repetitivas para reduzir ansiedade.',
-        definition: 'A perturbação (neurodivergência) obsessivo-compulsiva envolve obsessões (pensamentos intrusivos) e/ou compulsões (rituais), clinicamente significativos e com prejuízo funcional.',
-        simpleExplanation: 'Pode parecer uma necessidade difícil de controlar de repetir verificações ou rituais para aliviar ansiedade, mesmo sabendo que isso consome tempo e energia.',
+        simpleExplanation: 'Pensamentos intrusivos e rituais repetitivos realizados para aliviar ansiedade, que acabam por consumir tempo e energia.',
         sourceLabel: 'NIMH - Obsessive-Compulsive Disorder',
-        sourceUrl: 'https://www.nimh.nih.gov/health/topics/obsessive-compulsive-disorder-ocd'
+        sourceUrl: 'https://www.nimh.nih.gov/health/topics/obsessive-compulsive-disorder-ocd',
+        longDescription: `
+          <p>O TOC envolve obsessões (pensamentos intrusivos) e compulsões (rituais) que a pessoa sente obrigatoriedade de executar para reduzir a ansiedade.</p>
+          <p>As compulsões são ritualísticas (lavagem, verificação, contagem) e mantêm o ciclo de ansiedade; o início é frequentemente na infância ou adolescência.</p>
+          <p>O tratamento de primeira linha é a exposição e prevenção de resposta (ERP), um tipo de TCC, frequentemente combinado com ISRS quando necessário.</p>
+          <p>Quando o TOC é resistente, existem opções avançadas em centros especializados; o apoio familiar e a psicoeducação são importantes para o sucesso terapêutico.</p>
+        `
       },
       {
         id: 7,
         category: 'Esquizofrenia',
         prevalencePt: 0.43,
         image: 'assets/images/esquizofrenia-real.png',
-        shortDescription: 'Perturbação (neurodivergência) grave com possíveis alucinações, delírios e desorganização do pensamento.',
-        definition: 'A esquizofrenia é uma perturbação (neurodivergência) mental grave, heterogénea, com sintomas psicóticos e alterações cognitivas/funcionais que exigem acompanhamento clínico contínuo.',
-        simpleExplanation: 'Em termos práticos, a pessoa pode ter experiências muito reais para si (como ouvir vozes), dificuldade em organizar pensamentos e maior necessidade de apoio clínico regular.',
+        shortDescription: 'Perturbação grave com possíveis alucinações, delírios e alterações cognitivas.',
+        simpleExplanation: 'Pode envolver experiências psicóticas (ex.: ouvir vozes), alterações de pensamento e dificuldades cognitivas que exigem acompanhamento contínuo.',
         sourceLabel: 'WHO - Schizophrenia',
-        sourceUrl: 'https://www.who.int/news-room/fact-sheets/detail/schizophrenia'
+        sourceUrl: 'https://www.who.int/news-room/fact-sheets/detail/schizophrenia',
+        longDescription: `
+          <p>A esquizofrenia é uma perturbação mental complexa caracterizada por sintomas psicóticos (alucinações, delírios), sintomas negativos (apatia) e défices cognitivos.</p>
+          <p>O início ocorre tipicamente na adolescência tardia ou início da idade adulta; o curso é variável, com episódios e remissões em muitos casos.</p>
+          <p>Fatores genéticos e ambientais interagem no risco; intervenções comunitárias e cuidados continuados são essenciais para melhores resultados.</p>
+          <p>O tratamento inclui antipsicóticos e intervenções psicossociais (reabilitação, apoio familiar, emprego apoiado) e requer políticas que combatam o estigma.</p>
+        `
       },
       {
         id: 8,
         category: 'Autismo',
         prevalencePt: 1.2,
         image: 'assets/images/autismo-real.png',
-        shortDescription: 'Condição do neurodesenvolvimento com diferenças na comunicação social e padrões de comportamento restritos e repetitivos.',
-        definition: 'Segundo a ICD-11 da OMS (6A02), o autismo é uma condição do neurodesenvolvimento caracterizada por dificuldades persistentes na comunicação e interação social recíproca, e por padrões restritos, repetitivos e inflexíveis de comportamento, interesses ou atividades.',
-        simpleExplanation: 'No quotidiano, pode traduzir-se em formas próprias de comunicar, necessidade de rotinas previsíveis e maior sensibilidade sensorial (sons, luzes, texturas), com perfis muito diferentes entre pessoas.',
-        sourceLabel: 'NICE (Europa) CG170 + referência ICD-11 da OMS',
-        sourceUrl: 'https://www.nice.org.uk/guidance/cg170'
+        shortDescription: 'Condição do neurodesenvolvimento com diferenças na comunicação social e padrões repetitivos.',
+        simpleExplanation: 'Diferenças na interação social, rotinas preferenciais e sensibilidades sensoriais; cada pessoa apresenta um perfil único.',
+        sourceLabel: 'NICE - Autism guideline',
+        sourceUrl: 'https://www.nice.org.uk/guidance/cg170',
+        longDescription: `
+          <p>O autismo é uma condição do neurodesenvolvimento caracterizada por diferenças persistentes na comunicação e interação social, e por padrões restritos e repetitivos de comportamento.</p>
+          <p>As manifestações são heterogéneas: algumas pessoas têm necessidades de apoio elevadas, outras são altamente independentes com capacidades específicas.</p>
+          <p>Intervenções baseadas em necessidades individuais (terapias, suporte educativo, terapia ocupacional) visam aumentar autonomia e bem-estar.</p>
+          <p>Promover inclusão, acessibilidade e respeito pela diversidade neurológica é tão importante quanto as intervenções clínicas.</p>
+        `
       }
     ];
 
-    function getId() {
-      const params = new URLSearchParams(window.location.search);
-      return Number(params.get('id'));
-    }
-
-    function commentsKey(id) {
-      return `bluelava_comments_${id}`;
-    }
-
-    function loadComments(id) {
-      try {
-        return JSON.parse(localStorage.getItem(commentsKey(id)) || '[]');
-      } catch (error) {
-        return [];
-      }
-    }
-
-    function saveComments(id, comments) {
-      localStorage.setItem(commentsKey(id), JSON.stringify(comments));
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
+    function commentsKey(id) { return `bluelava_comments_${id}`; }
+    function loadComments(id) { try { return JSON.parse(localStorage.getItem(commentsKey(id)) || '[]'); } catch { return []; } }
+    function saveComments(id, comments) { localStorage.setItem(commentsKey(id), JSON.stringify(comments)); }
+    function escapeHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
     function renderComments(disorderId) {
       const comments = loadComments(disorderId);
       const list = document.getElementById('commentsList');
-      if (comments.length === 0) {
-        list.innerHTML = '<p>Ainda não há comentários. Sê a primeira pessoa a partilhar.</p>';
-        return;
-      }
-
-      list.innerHTML = comments.map(function(comment) {
-        const author = comment.anonymous ? 'Anónimo' : (comment.name || 'Sem nome');
-        return `
-          <article class="comment">
-            <div class="row">
-              <strong>${escapeHtml(author)}</strong>
-              <small>${new Date(comment.createdAt).toLocaleString('pt-PT')}</small>
-            </div>
-            <p style="margin:8px 0 10px">${escapeHtml(comment.text)}</p>
-            <button class="like-popcorn" onclick="likeComment(${disorderId}, ${comment.id})">🍿 ${comment.likes}</button>
-          </article>
-        `;
-      }).join('');
+      if (!comments || comments.length === 0) { list.innerHTML = '<p>Seja o primeiro a partilhar.</p>'; return; }
+      list.innerHTML = comments.map(c => `
+        <article class="comment">
+          <div class="row"><strong>${escapeHtml(c.anonymous ? 'Anónimo' : (c.name||'Sem nome'))}</strong><small>${new Date(c.createdAt).toLocaleString('pt-PT')}</small></div>
+          <p style="margin:8px 0 10px">${escapeHtml(c.text)}</p>
+          <button class="like-popcorn" onclick="likeComment(${disorderId}, ${c.id})">🍿 ${c.likes||0}</button>
+        </article>
+      `).join('');
     }
 
     function likeComment(disorderId, commentId) {
       const comments = loadComments(disorderId);
-      const item = comments.find(function(entry) { return entry.id === commentId; });
-      if (!item) return;
-      item.likes = (item.likes || 0) + 1;
-      saveComments(disorderId, comments);
-      renderComments(disorderId);
+      const it = comments.find(x => x.id === commentId); if (!it) return; it.likes = (it.likes||0)+1; saveComments(disorderId, comments); renderComments(disorderId);
     }
 
     function bindForm(disorderId) {
-      document.getElementById('sendBtn').addEventListener('click', function() {
+      document.getElementById('sendBtn').addEventListener('click', function(){
         const name = document.getElementById('nameInput').value.trim();
         const anonymous = document.getElementById('anonInput').checked;
-        const text = document.getElementById('textInput').value;
-
-        if (!text || !text.trim()) {
-          alert('Escreve um comentário antes de publicar.');
-          return;
-        }
-
+        const text = document.getElementById('textInput').value.trim();
+        if (!text) return alert('Escreva um testemunho.');
         const comments = loadComments(disorderId);
-        comments.unshift({
-          id: Date.now(),
-          name,
-          anonymous,
-          text,
-          likes: 0,
-          createdAt: Date.now()
-        });
-
-        saveComments(disorderId, comments);
-        document.getElementById('textInput').value = '';
-        renderComments(disorderId);
+        comments.unshift({ id: Date.now(), name, anonymous, text, likes:0, createdAt: Date.now() });
+        saveComments(disorderId, comments); document.getElementById('textInput').value = ''; renderComments(disorderId);
       });
     }
 
     function render() {
-      const id = getId();
-      const disorder = disorders.find(function(item) { return item.id === id; });
-      if (!disorder) {
-        document.querySelector('.wrap').innerHTML = '<p>Perturbação (neurodivergência) não encontrada. <a href="community.html">Voltar</a></p>';
-        return;
-      }
-
-      document.title = `BlueLava - ${disorder.category}`;
-      const detailImage = document.getElementById('dImage');
-      detailImage.src = disorder.image;
-      detailImage.alt = disorder.category;
-      document.getElementById('dTitle').textContent = disorder.category;
-      document.getElementById('dMeta').textContent = `🇵🇹 ${disorder.prevalencePt}% da população portuguesa`;
-      document.getElementById('dDesc').textContent = disorder.shortDescription;
-      document.getElementById('dDefinition').textContent = disorder.definition;
-      document.getElementById('dSimple').textContent = disorder.simpleExplanation;
-      document.getElementById('dSource').href = disorder.sourceUrl;
-      document.getElementById('dSource').textContent = disorder.sourceLabel;
-
-      document.getElementById('detailsCard').style.display = 'block';
-      document.getElementById('commentsCard').style.display = 'block';
-
-      bindForm(id);
-      renderComments(id);
+      const params = new URLSearchParams(window.location.search); const id = Number(params.get('id'));
+      const item = disorders.find(d => d.id === id);
+      if (!item) { document.querySelector('.wrap').innerHTML = '<p>Perturbação não encontrada. <a href="community.html">Voltar</a></p>'; return; }
+      document.title = `BlueLava - ${item.category}`;
+      document.getElementById('dImage').src = item.image; document.getElementById('dImage').alt = item.category;
+      document.getElementById('dTitle').textContent = item.category;
+      document.getElementById('dMeta').textContent = `🇵🇹 ${item.prevalencePt}% da população portuguesa`;
+      document.getElementById('dDesc').textContent = item.shortDescription;
+      document.getElementById('dDefinition').innerHTML = item.longDescription;
+      document.getElementById('dSource').href = item.sourceUrl; document.getElementById('dSource').textContent = item.sourceLabel;
+      document.getElementById('dSimple').textContent = item.simpleExplanation;
+      document.getElementById('detailsCard').style.display = 'block'; document.getElementById('commentsCard').style.display = 'block';
+      bindForm(id); renderComments(id);
     }
 
-    render();
-    window.likeComment = likeComment;
+    render(); window.likeComment = likeComment;
   </script>
 </body>
 </html>
