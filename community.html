@@ -104,6 +104,18 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+    // If this page is loaded inside the hub (embed=1), hide its top header/nav
+    (function(){
+      try{
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('embed') === '1'){
+          const style = document.createElement('style');
+          style.innerHTML = 'header, nav.site-nav, .stats-banner { display: none !important; } body { padding-top: 0 !important; }';
+          document.head.appendChild(style);
+        }
+      }catch(e){}
+    })();
+
     const disorders = [
       {
         id: 1,

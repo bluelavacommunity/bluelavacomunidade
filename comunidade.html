@@ -44,10 +44,10 @@
 
     function srcFor(tab){
       const map = {
-        historias: 'index.html',
-        compreender: '../index.html',
-        recursos: 'recursos.html',
-        origem: 'origem.html'
+        historias: 'index.html?embed=1',
+        compreender: 'community.html?embed=1',
+        recursos: 'recursos.html?embed=1',
+        origem: 'origem.html?embed=1'
       };
       let src = map[tab] || map['historias'];
       if (preserveAnon) src += (src.includes('?') ? '&anon=1' : '?anon=1');

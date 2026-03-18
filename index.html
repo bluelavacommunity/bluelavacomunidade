@@ -39,6 +39,12 @@
 			.tagline-text{font-family:'Inter',sans-serif;font-size:1.05rem;color:#fff;text-align:center;padding:12px 16px;opacity:.95}
 			.stories-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
 			@media(min-width:800px){.stories-grid{grid-template-columns:repeat(2,1fr)}}
+			/* Embedded (hub) mode: single-column, fluid reading */
+			body.embedded .stories-grid{display:block}
+			body.embedded .story-card{max-width:820px;margin:18px auto;padding:20px;border-radius:10px}
+			body.embedded .story-text{display:block;-webkit-line-clamp:none}
+			body.embedded .cta-block{max-width:820px;margin:18px auto;padding:18px}
+			.submission-block .tagline{white-space:pre-wrap;margin-bottom:12px}
 			.story-card{padding:14px;background:#fff;border-radius:10px;border:1px solid #eee}
 			.story-text{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;margin:0}
 			.story-text.expanded{display:block}
@@ -93,10 +99,14 @@
 	<script>
 	(function(){
 		const params = new URLSearchParams(window.location.search);
+		const embed = params.get('embed') === '1';
 		const preserveAnon = params.get('anon') === '1';
 
-		// preserve anon in site-nav links
+		if (embed) document.body.classList.add('embedded');
+
+		// preserve anon in site-nav links only when not embedded
 		function updateNav() {
+			if (embed) return;
 			document.querySelectorAll('.site-nav a').forEach(a => {
 				const href = a.getAttribute('href');
 				if (!href) return;
@@ -115,12 +125,79 @@
 			const sample = [
 				{id: now+1, text: 'Há dias em que não sinto nada… e isso assusta mais do que sentir tudo.', name:'', anonymous:true, createdAt: now-86400000*2},
 				{id: now+2, text: 'Pedir ajuda foi a melhor decisão que tomei; encontrei apoio em pequenos passos.', name:'João', anonymous:false, createdAt: now-86400000},
-				{id: now+3, text: 'A medicação ajudou-me, mas a compreensão da família foi essencial.', name:'', anonymous:true, createdAt: now-43200000}
+				{id: now+3, text: 'A medicação ajudou-me, mas a compreensão da família foi essencial.', name:'', anonymous:true, createdAt: now-43200000},
+				{id: now+4, text: 'Aprendi a respirar durante picos de ansiedade e ajuda muito.', name:'Marta', anonymous:false, createdAt: now-20000000},
+				{id: now+5, text: 'A solidão era o pior, até que entrei num grupo de apoio e senti-me menos só.', name:'', anonymous:true, createdAt: now-10000000}
 			]; saveStories(sample);
 		}}
 
 		function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/\n/g,'<br>'); }
 
+		const feed = document.getElementById('storiesFeed');
+
+		// Embedded mode: infinite single-column scroll with CTA after every 3 stories
+		if (embed) {
+			let currentIndex = 0;
+			const pageSize = 3;
+
+			function createStoryEl(s){
+				const card = document.createElement('article'); card.className='story-card card';
+				card.innerHTML = `
+					<p class="story-text">${escapeHtml(s.text)}</p>
+					<div class="story-author">— ${s.anonymous ? 'Anónimo' : (s.name||'Sem nome')}</div>
+				`;
+				return card;
+			}
+
+			function appendSubmissionBlock(){
+				const wrapper = document.createElement('div'); wrapper.className='cta-block card submission-block';
+				wrapper.innerHTML = `
+					<div class="tagline">🔹 1. Texto principal (emocional)\n\n🥇 Recomendo usares:\n\n“Não tens de guardar isso só para ti.”\n\n⸻\n\n🔹 2. Subtexto (segurança)\n\n“Se quiseres, podes deixar isso aqui.\nPodes manter-te completamente anónimo.”\n\n⸻\n\n🔹 3. Caixa de texto (com guia invisível)\n\nDentro da caixa, mete isto (muito importante):\n\n“Podes começar com algo como:\n‘Ultimamente tenho sentido…’\nou\n‘Algo que nunca disse a ninguém é…’”</div>
+					<textarea class="anon-story-text" placeholder="Podes começar com algo como: 'Ultimamente tenho sentido...'\nou\n'Algo que nunca disse a ninguém é...'" rows="5" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin-top:10px"></textarea>
+					<div style="text-align:right;margin-top:10px"><label style="margin-right:12px"><input type="checkbox" class="anon-story-check" checked> Anónimo</label><button class="btn anon-submit">Partilhar anonimamente</button></div>
+				`;
+
+				wrapper.querySelector('.anon-submit').addEventListener('click', function(){
+					const text = wrapper.querySelector('.anon-story-text').value.trim();
+					const anonim = wrapper.querySelector('.anon-story-check').checked;
+					if(!text) return alert('Escreve a tua história.');
+					const stories = getStories(); stories.unshift({ id: Date.now(), text, name: '', anonymous: anonim, createdAt: Date.now() }); saveStories(stories);
+					// reset and re-render from start
+					currentIndex = 0; feed.innerHTML = '';
+					// remove sentinel if present
+					const s = document.getElementById('scrollSentinel'); if (s) s.remove();
+					renderMore();
+				});
+
+				feed.appendChild(wrapper);
+			}
+
+			function renderMore(){
+				const stories = getStories().slice().sort((a,b)=>b.createdAt - a.createdAt);
+				if (currentIndex >= stories.length) {
+					if (!document.getElementById('endOfStories')){
+						const end = document.createElement('div'); end.id='endOfStories'; end.style.padding='24px'; end.style.textAlign='center'; end.textContent='Não há mais histórias por agora.'; feed.appendChild(end);
+					}
+					return;
+				}
+				const batch = stories.slice(currentIndex, currentIndex + pageSize);
+				batch.forEach(s => feed.appendChild(createStoryEl(s)));
+				currentIndex += batch.length;
+				// after batch, append submission block
+				appendSubmissionBlock();
+				// ensure sentinel exists
+				if (!document.getElementById('scrollSentinel')){
+					const sentinel = document.createElement('div'); sentinel.id='scrollSentinel'; sentinel.style.height='1px'; feed.appendChild(sentinel);
+					const obs = new IntersectionObserver(entries => { entries.forEach(en => { if (en.isIntersecting) renderMore(); }); }, {root: null, rootMargin: '300px'});
+					obs.observe(sentinel);
+				}
+			}
+
+			seedStories(); renderMore();
+			return; // embedded mode done
+		}
+
+		// Legacy (standalone) render for the stories grid
 		function renderStories(){
 			const feed = document.getElementById('storiesFeed');
 			const stories = getStories().slice().sort((a,b)=>b.createdAt - a.createdAt);
@@ -141,18 +218,12 @@
 					feed.appendChild(cta);
 				}
 			});
-			// append a CTA at end if few stories
 			if (stories.length>0 && stories.length<4) {
 				const cta = document.createElement('div'); cta.className='cta-block card';
 				cta.innerHTML = '<p style="margin:0 0 8px">Se te identificaste com isto…</p><div style="text-align:right"><button class="btn global-share">Partilhar a minha história</button></div>';
 				feed.appendChild(cta);
 			}
-
-			document.querySelectorAll('.read-more').forEach(btn=>{
-				btn.addEventListener('click', ()=>{
-					const id = Number(btn.dataset.id); toggleExpand(id);
-				});
-			});
+			document.querySelectorAll('.read-more').forEach(btn=>{ btn.addEventListener('click', ()=>{ const id = Number(btn.dataset.id); toggleExpand(id); }); });
 			document.querySelectorAll('.global-share').forEach(b=>b.addEventListener('click', showShare));
 		}
 
