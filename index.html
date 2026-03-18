@@ -40,11 +40,14 @@
 			.stories-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
 			@media(min-width:800px){.stories-grid{grid-template-columns:repeat(2,1fr)}}
 			/* Embedded (hub) mode: single-column, fluid reading */
+			body.embedded header, body.embedded .top-banner, body.embedded nav.site-nav, body.embedded .stats-banner { display: none !important; }
+			body.embedded { background: transparent; }
 			body.embedded .stories-grid{display:block}
-			body.embedded .story-card{max-width:820px;margin:18px auto;padding:20px;border-radius:10px}
-			body.embedded .story-text{display:block;-webkit-line-clamp:none}
-			body.embedded .cta-block{max-width:820px;margin:18px auto;padding:18px}
-			.submission-block .tagline{white-space:pre-wrap;margin-bottom:12px}
+			body.embedded .story-card{max-width:820px;margin:18px auto;padding:22px;border-radius:12px;background:#fff}
+			body.embedded .story-text{display:block;-webkit-line-clamp:none;font-size:1.06rem;line-height:1.75;color:#222}
+			body.embedded .story-author{margin-top:10px;color:#666;font-weight:600}
+			body.embedded .cta-block{max-width:820px;margin:18px auto;padding:18px;background:#eaf5ff;border:1px solid #d5e6ff}
+			.submission-block .tagline{white-space:pre-wrap;margin-bottom:12px;font-size:0.98rem}
 			.story-card{padding:14px;background:#fff;border-radius:10px;border:1px solid #eee}
 			.story-text{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;margin:0}
 			.story-text.expanded{display:block}
@@ -161,12 +164,30 @@
 					const text = wrapper.querySelector('.anon-story-text').value.trim();
 					const anonim = wrapper.querySelector('.anon-story-check').checked;
 					if(!text) return alert('Escreve a tua história.');
-					const stories = getStories(); stories.unshift({ id: Date.now(), text, name: '', anonymous: anonim, createdAt: Date.now() }); saveStories(stories);
-					// reset and re-render from start
-					currentIndex = 0; feed.innerHTML = '';
-					// remove sentinel if present
-					const s = document.getElementById('scrollSentinel'); if (s) s.remove();
-					renderMore();
+					// save to storage
+					const stories = getStories();
+					const newStory = { id: Date.now(), text, name: '', anonymous: anonim, createdAt: Date.now() };
+					stories.unshift(newStory);
+					saveStories(stories);
+
+					// insert new element at top without re-rendering whole feed and preserve scroll position
+					const firstStory = feed.querySelector('.story-card');
+					const prevTop = firstStory ? firstStory.getBoundingClientRect().top : null;
+					const newEl = createStoryEl(newStory);
+					if (firstStory) feed.insertBefore(newEl, firstStory); else feed.insertBefore(newEl, feed.firstChild);
+
+					if (prevTop !== null) {
+						// After insertion, previous first element moved down; compute shift and adjust scroll so visual position is preserved
+						const newTop = firstStory.getBoundingClientRect().top;
+						const diff = newTop - prevTop;
+						window.scrollBy(0, diff);
+						// account for the prepended item in the paging index
+						currentIndex = (typeof currentIndex === 'number') ? currentIndex + 1 : currentIndex;
+					}
+
+					// clear input and give feedback
+					wrapper.querySelector('.anon-story-text').value = '';
+					alert('História partilhada. Obrigado.');
 				});
 
 				feed.appendChild(wrapper);
