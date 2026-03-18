@@ -49,6 +49,15 @@
             display: flex; align-items: center; gap: 10px; transition: transform 0.2s;
         }
         .social-btn:hover { transform: scale(1.05); }
+        /* HERO CTA */
+        .hero-cta-container { margin-top: 24px; display:flex; justify-content:center; }
+        .hero-cta {
+            background: linear-gradient(90deg, var(--primary), #2b7bd6);
+            padding: 14px 28px; border-radius: 30px; color: white; font-weight: 700;
+            text-decoration: none; display: inline-flex; gap: 10px; align-items:center;
+            box-shadow: 0 6px 18px rgba(74,144,226,0.18); font-size:1.05rem;
+        }
+        .hero-cta:hover { transform: translateY(-2px); }
         .btn-discord { background-color: var(--discord); }
         .btn-x { background-color: var(--x-black); border: 1px solid #555; }
 
@@ -145,6 +154,12 @@
             <!-- LINK X.COM ATUALIZADO AQUI 👇 -->
             <a href="https://x.com/bluelava_pt" target="_blank" class="social-btn btn-x">
                 <i class="fa-brands fa-x-twitter"></i> Seguir no X.com
+            </a>
+        </div>
+        <div class="hero-cta-container">
+            <a id="enterBtn" href="bluelava-community/comunidade.html" class="hero-cta">
+                <i class="fa-solid fa-arrow-right"></i>
+                Visitar a Comunidade
             </a>
         </div>
     </header>
@@ -368,19 +383,20 @@
 
         init();
     </script>
-    
-        <script>
-        // Replace the 'Visitar a Comunidade' button to remove previous handlers and link to the new comunidade home
-        (function(){
-            const old = document.getElementById('enterBtn');
-            if (!old) return;
-            const newBtn = old.cloneNode(true);
-            newBtn.addEventListener('click', function(e){
-                e.preventDefault();
-                window.location.href = 'bluelava-community/comunidade.html';
-            });
-            old.parentNode.replaceChild(newBtn, old);
-        })();
-        </script>
+
+    <script>
+    (function(){
+        const btn = document.getElementById('enterBtn');
+        if(!btn) return;
+        try {
+            const params = new URLSearchParams(window.location.search);
+            if(params.get('anon') === '1') {
+                if(!btn.href.includes('anon=1')) {
+                    btn.href = btn.href + (btn.href.includes('?') ? '&' : '?') + 'anon=1';
+                }
+            }
+        } catch(e) { /* ignore in non-browser contexts */ }
+    })();
+    </script>
 </body>
 </html>
