@@ -1,0 +1,31 @@
+/.DS_Store
+.vscode/
+*.swp
+*~
+
+# Node
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build / backup folders (hide large local artifacts)
+ipad-backup/
+limd-build/
+
+# Common temp / build
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+
+# Environment
+.env
+.env.local
+
+# temp
+*.tmp
