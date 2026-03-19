@@ -12,7 +12,7 @@
     .top-banner{background:linear-gradient(180deg,#000f2a,#2b4cb8);color:#fff;padding:14px 16px}
     .top-banner-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
     .news-feed{background:#ff6f3d;color:#fff;padding:10px 0;overflow:hidden;white-space:nowrap;position:relative}
-    .news-feed-track{display:inline-flex;align-items:center;gap:28px;min-width:max-content;padding:0 16px;animation:newsTicker 45s linear infinite;will-change:transform}
+    .news-feed-track{display:inline-flex;align-items:center;gap:28px;min-width:max-content;padding:0 16px;animation:newsTicker 60s linear infinite;will-change:transform}
     .news-feed:hover .news-feed-track{animation-play-state:paused}
     .news-tip{font-size:.94rem;font-weight:600}
     @keyframes newsTicker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
@@ -26,6 +26,9 @@
     .card{background:#fff;border:1px solid #ececec;border-radius:12px;padding:18px;box-shadow:0 10px 26px rgba(0,0,0,.06)}
     .title{margin:8px 0 4px;font-size:1.8rem;font-family:'Inter',sans-serif;font-weight:700}
     .meta{color:#4A90E2;font-weight:600;font-family:'Inter',sans-serif}
+    #dDesc{margin:10px 0 14px;max-width:72ch;line-height:1.78;font-size:1.03rem}
+    #dDefinition{max-width:74ch}
+    #dDefinition p{margin:0 0 1.1em;line-height:1.86;font-size:1.03rem;color:#222}
     .simple-box{margin-top:12px;background:#f3f8ff;border:1px solid #d5e6ff;border-radius:10px;padding:12px}
     .comments{margin-top:22px}
     .story-call{margin:0 0 12px;padding:10px 12px;background:#fff8e8;border:1px solid #ffe2a6;border-radius:8px;font-weight:700;color:#6a4a00;font-family:'Inter',sans-serif}
@@ -39,7 +42,14 @@
     .dis-image{width:100%;height:280px;object-fit:cover;border-radius:10px}
     .source{margin-top:18px;font-size:.95rem}
     .source a{color:var(--primary)}
-    @media(max-width:700px){.dis-image{height:200px}}
+    @media(max-width:700px){
+      .dis-image{height:200px}
+      .card{padding:14px}
+      .title{font-size:1.56rem}
+      #dDesc{font-size:1rem;line-height:1.72;max-width:none}
+      #dDefinition{max-width:none}
+      #dDefinition p{font-size:1rem;line-height:1.74}
+    }
   </style>
 </head>
 <body>
