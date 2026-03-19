@@ -93,20 +93,12 @@
 
     <section id="sharePanel" class="card share-panel" style="display:none">
       <h2 style="margin-top:0">Partilha de experiências</h2>
-      <p class="share-help">Dentro da caixa, mete isto (muito importante):
-
-Podes começar com algo como:
-'Ultimamente tenho sentido...'
-ou
-'Algo que nunca disse a ninguém é...'</p>
+      <p class="share-help">Algo que nunca disse a ninguém é...</p>
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap">
         <input id="storyName" type="text" placeholder="Nickname (opcional)">
         <label style="display:inline-flex;align-items:center;gap:6px"><input id="storyAnon" type="checkbox" checked> Partilhar anonimamente</label>
       </div>
-      <textarea id="storyText" placeholder="Podes começar com algo como:
-'Ultimamente tenho sentido...'
-ou
-'Algo que nunca disse a ninguém é...'"></textarea>
+      <textarea id="storyText" placeholder="Algo que nunca disse a ninguém é..."></textarea>
       <div style="text-align:right;margin-top:10px"><button id="submitStory" class="btn">Partilhar experiência</button></div>
     </section>
   </main>
@@ -181,12 +173,7 @@ ou
             const cta = document.createElement('div');
             cta.className='cta-block card';
             cta.innerHTML = `
-              <p class="cta-copy">Dentro da caixa, mete isto (muito importante):
-
-Podes começar com algo como:
-'Ultimamente tenho sentido...'
-ou
-'Algo que nunca disse a ninguém é...'</p>
+              <p class="cta-copy">Algo que nunca disse a ninguém é...</p>
               <div style="text-align:right"><button class="btn global-share">Partilhar experiência</button></div>
             `;
             feed.appendChild(cta);

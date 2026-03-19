@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Blue Lava - Hero</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--primary:#4A90E2;--white:#fff;--text:#eaf2ff}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+      color:var(--text);
+      background-color:#0b1f3d;
+      background-image:linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.38)),url('assets/images/background-fixed.jpg'),url('assets/images/background website.jpeg');
+      background-repeat:no-repeat,no-repeat,no-repeat;
+      background-position:center center,center center,center center;
+      background-size:cover,cover,cover;
+      background-attachment:fixed,fixed,fixed;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+    .hero{
+      width:min(880px,100%);
+      background:rgba(6,19,43,.58);
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:22px;
+      padding:28px;
+      backdrop-filter:blur(5px);
+      box-shadow:0 24px 48px rgba(0,0,0,.32);
+      text-align:center;
+    }
+    .brand-mark{width:120px;max-width:38vw;height:auto;display:block;margin:0 auto 10px}
+    .logo-line{margin:0 0 10px;font-size:1rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+    h1{margin:0 0 10px;font-size:clamp(1.6rem,3.5vw,2.5rem);line-height:1.15}
+    .subtitle{margin:0 0 20px;font-size:clamp(1rem,2.6vw,1.18rem);font-weight:500;opacity:.98}
+    .stat{margin:0 0 8px;font-size:clamp(1rem,2.4vw,1.12rem);font-weight:700;color:#ffd7b8}
+    .support{margin:0 0 24px;font-size:clamp(1rem,2.4vw,1.1rem);font-weight:600}
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      text-decoration:none;
+      border-radius:999px;
+      background:var(--primary);
+      color:var(--white);
+      font-weight:800;
+      padding:12px 22px;
+      min-height:48px;
+      transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease;
+      box-shadow:0 12px 24px rgba(74,144,226,.36);
+    }
+    .cta:hover{transform:translateY(-1px);opacity:.96}
+    .cta:focus-visible{outline:2px solid #fff;outline-offset:2px}
+    .cta-logo{width:20px;height:20px;object-fit:contain;border-radius:4px}
+    @media (max-width:640px){
+      .hero{padding:22px 16px;border-radius:18px}
+    }
+  </style>
+</head>
+<body>
+  <main class="hero" aria-label="Hero page Blue Lava">
+    <img class="brand-mark" src="logo.png" alt="Logo Blue Lava">
+    <p class="logo-line">Logo Blue Lava</p>
+    <h1>Bem-vindo à Comunidade Blue Lava</h1>
+    <p class="subtitle">A comunidade de apoio, partilha e crescimento em saúde mental</p>
+    <p class="stat">⚠️ Estatística Nacional: 1 em cada 5 pessoas em Portugal sofre de uma perturbação (neurodivergência) mental.</p>
+    <p class="support">Alguém, em algum lugar, sente exatamente o que tu estás a sentir</p>
+    <a class="cta" href="comunidade.html?tab=historias" aria-label="Visitar a Comunidade na tab Histórias">
+      <img class="cta-logo" src="logo.png" alt="">
+      <span>Visitar a Comunidade</span>
+    </a>
+  </main>
+</body>
+</html>
