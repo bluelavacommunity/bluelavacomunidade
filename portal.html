@@ -4,14 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>BlueLava — Comunidade</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
   <style>
     :root{--primary:#4A90E2;--bg:#0b1f3d;--card:#fff}
     html,body{margin:0;height:100%;font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:#fff}
     .top{background:linear-gradient(180deg,#000f2a,#2b4cb8);padding:12px 16px;text-align:center}
     .top img{max-width:120px}
+    .social-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#000;color:#fff;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.28);transition:transform .15s ease,opacity .15s ease}
+    .social-btn:hover{transform:translateY(-1px);opacity:.92}
+    .social-btn i{font-size:18px}
     .news-feed{background:#ff6f3d;color:#fff;padding:10px 0;overflow:hidden;white-space:nowrap;position:relative}
-    .news-feed-track{display:inline-flex;align-items:center;gap:28px;min-width:max-content;padding:0 16px;animation:newsTicker 60s linear infinite;will-change:transform}
+    .news-feed-track{display:inline-flex;align-items:center;gap:28px;min-width:max-content;padding:0 16px;animation:newsTicker 90s linear infinite;will-change:transform}
     .news-feed:hover .news-feed-track{animation-play-state:paused}
     .news-tip{font-size:.94rem;font-weight:600}
     @keyframes newsTicker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
@@ -31,6 +35,12 @@
     <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
       <img src="logo.png" alt="logo">
       <div style="font-weight:700">Comunidade Blue Lava</div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <a class="social-btn" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a class="social-btn" href="#" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+        <a class="social-btn" href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+        <a class="social-btn" href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
     </div>
   </header>
 

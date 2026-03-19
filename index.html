@@ -13,7 +13,7 @@
 		.top-banner-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
 		.banner-title{font-weight:700;font-size:1.05rem;font-family:'Inter',sans-serif}
 		.news-feed{background:#ff6f3d;color:#fff;padding:10px 0;overflow:hidden;white-space:nowrap;position:relative}
-		.news-feed-track{display:inline-flex;align-items:center;gap:28px;min-width:max-content;padding:0 16px;animation:newsTicker 60s linear infinite;will-change:transform}
+		.news-feed-track{display:inline-flex;align-items:center;gap:28px;min-width:max-content;padding:0 16px;animation:newsTicker 90s linear infinite;will-change:transform}
 		.news-feed:hover .news-feed-track{animation-play-state:paused}
 		.news-tip{font-size:.94rem;font-weight:600}
 		@keyframes newsTicker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
@@ -28,6 +28,7 @@
 		.hero-quote{margin:14px 0 8px;font-family:'Inter',sans-serif;font-weight:700;font-size:2.4rem;line-height:1.12}
 		.stat{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:12px 18px;border-radius:12px}
 		.btn{margin-top:18px;background:var(--white);color:var(--primary);padding:11px 24px;border:none;border-radius:999px;font-weight:600;font-family:'Inter',sans-serif;text-transform:none;cursor:pointer}
+		.btn.global-share,.btn.submit-share{background:var(--primary);color:var(--white)}
 
 			.letter-wrap{max-width:980px;margin:-96px auto 40px;padding:0 18px;position:relative;z-index:2}
 			.letter{background:#fff;border:1px solid #ececec;border-radius:12px;box-shadow:0 14px 40px rgba(0,0,0,.08);padding:24px;line-height:1.7}
@@ -73,8 +74,10 @@
 			<img src="logo.png" alt="logo" style="max-width:120px;display:block;margin:0">
 			<div class="banner-title">Comunidade Blue Lava</div>
 			<div style="margin-left:8px;display:flex;gap:10px;align-items:center">
-				<a class="social-btn" href="https://chat.whatsapp.com/I2DYIq1923JKIiv37BQ2LE?mode=hqctswa" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+				<a class="social-btn" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+				<a class="social-btn" href="#" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
 				<a class="social-btn" href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+				<a class="social-btn" href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
 			</div>
 		</div>
 	</header>
@@ -110,13 +113,13 @@
 		<section id="storiesFeed" class="stories-grid"></section>
 
 		<div id="sharePanel" class="card" style="display:none;margin-top:18px">
-			<h2 style="margin-top:0">Partilhar a história</h2>
+			<h2 style="margin-top:0">Partilha connosco</h2>
 			<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
 				<input id="storyName" type="text" placeholder="O seu nome (opcional)">
 				<label style="display:inline-flex;align-items:center;gap:6px;margin-left:6px"><input id="storyAnon" type="checkbox"> Anónimo</label>
 			</div>
 			<textarea id="storyText" placeholder="Escreve a tua história..."></textarea>
-			<div style="text-align:right;margin-top:10px"><button id="submitStory" class="btn">Partilhar</button></div>
+			<div style="text-align:right;margin-top:10px"><button id="submitStory" class="btn submit-share">Partilha connosco</button></div>
 		</div>
 	</main>
 
@@ -260,13 +263,13 @@
 				feed.appendChild(card);
 				if ((i % 4) === 3) {
 					const cta = document.createElement('div'); cta.className='cta-block card';
-					cta.innerHTML = '<p style="margin:0 0 8px">Se te identificaste com isto…</p><div style="text-align:right"><button class="btn global-share">Partilhar a minha história</button></div>';
+					cta.innerHTML = '<p style="margin:0 0 8px">Se tens algo preso dentro de ti, partilha...</p><div style="text-align:right"><button class="btn global-share">Partilha connosco</button></div>';
 					feed.appendChild(cta);
 				}
 			});
 			if (stories.length>0 && stories.length<4) {
 				const cta = document.createElement('div'); cta.className='cta-block card';
-				cta.innerHTML = '<p style="margin:0 0 8px">Se te identificaste com isto…</p><div style="text-align:right"><button class="btn global-share">Partilhar a minha história</button></div>';
+				cta.innerHTML = '<p style="margin:0 0 8px">Se tens algo preso dentro de ti, partilha...</p><div style="text-align:right"><button class="btn global-share">Partilha connosco</button></div>';
 				feed.appendChild(cta);
 			}
 			document.querySelectorAll('.read-more').forEach(btn=>{ btn.addEventListener('click', ()=>{ const id = Number(btn.dataset.id); toggleExpand(id); }); });
