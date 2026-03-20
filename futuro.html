@@ -7,7 +7,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
   <style>
-    :root{--primary:#4A90E2;--white:#fff;--ink:#22314a}
+    :root{
+      --primary:#4A90E2;
+      --white:#fff;
+      --ink:#1f2e45;
+      --ink-soft:#3a5378;
+      --line:#dbe8ff;
+      --surface:#ffffff;
+      --surface-alt:#f5faff;
+      --shadow:0 14px 36px rgba(5,23,52,.14);
+    }
     html,body{margin:0}
     body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;background:#0b1f3d;color:#fff}
     .top-banner{background:linear-gradient(180deg,#000f2a,#2b4cb8);color:#fff;padding:14px 16px}
@@ -26,21 +35,83 @@
     .site-nav .nav-link:hover{transform:translateY(-1px);box-shadow:0 8px 16px rgba(74,144,226,.18);background:#eef6ff}
     .site-nav .nav-link:focus-visible{outline:2px solid #1f4f8f;outline-offset:2px}
     .site-nav .nav-link.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 8px 18px rgba(74,144,226,.28)}
-    .container{max-width:1040px;margin:22px auto;padding:0 16px}
-    .intro{background:linear-gradient(140deg,#f6fbff,#ffffff);color:var(--ink);border:1px solid #d8e8ff;border-radius:14px;padding:20px 18px;box-shadow:0 10px 28px rgba(0,0,0,.08)}
-    .intro h1{margin:0 0 10px;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15}
-    .intro p{margin:0;line-height:1.72;color:#2b4263}
-    .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
-    .plan-card{background:#fff;color:#1f2f46;border-radius:12px;padding:16px 16px 14px;border:1px solid #e6edf7;box-shadow:0 8px 24px rgba(0,0,0,.08)}
-    .plan-rank{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#eaf4ff;color:#1b5fb6;font-weight:800;margin-bottom:10px}
-    .plan-card h2{margin:0 0 8px;font-size:1.02rem;line-height:1.35}
-    .plan-card p{margin:0;color:#304866;line-height:1.62;font-size:.97rem}
+    .container{max-width:1120px;margin:24px auto;padding:0 16px}
+    .hero-box{
+      background:linear-gradient(150deg,#f8fbff 0%,#ffffff 55%,#eef6ff 100%);
+      color:var(--ink);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:26px 24px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-box::after{
+      content:'';
+      position:absolute;
+      right:-42px;
+      top:-42px;
+      width:170px;
+      height:170px;
+      background:radial-gradient(circle,#d8eaff 0%,rgba(216,234,255,0) 70%);
+      pointer-events:none;
+    }
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 11px;
+      border-radius:999px;
+      border:1px solid #d6e7ff;
+      background:#f2f8ff;
+      font-size:.78rem;
+      font-weight:700;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      color:#194f9a;
+      margin:0 0 12px;
+    }
+    .hero-box h1{margin:0 0 12px;font-size:clamp(1.8rem,3.6vw,2.6rem);line-height:1.12}
+    .hero-box p{margin:0;line-height:1.74;color:var(--ink-soft);max-width:80ch}
+    .plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+    .plan-card{
+      background:var(--surface);
+      color:var(--ink);
+      border:1px solid #e3edf9;
+      border-radius:14px;
+      padding:18px;
+      box-shadow:0 8px 22px rgba(6,27,58,.08);
+      transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+    }
+    .plan-card:hover{
+      transform:translateY(-3px);
+      border-color:#cde1ff;
+      box-shadow:0 14px 30px rgba(7,35,79,.14);
+    }
+    .plan-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+    .plan-rank{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;border-radius:50%;background:#eaf4ff;color:#1b5fb6;font-weight:800;box-shadow:inset 0 0 0 1px #d6e7ff}
+    .plan-card h2{margin:2px 0 0;font-size:1.04rem;line-height:1.36}
+    .plan-card p{margin:0;color:#304866;line-height:1.66;font-size:.97rem}
+    .closing{
+      margin-top:16px;
+      background:linear-gradient(140deg,#0f2d58,#173f75);
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:14px;
+      padding:16px 18px;
+      box-shadow:0 12px 28px rgba(0,0,0,.2);
+    }
+    .closing p{margin:0;color:#e9f2ff;line-height:1.7;font-weight:500}
     body.embedded .top-banner, body.embedded .news-feed, body.embedded .site-nav{display:none !important}
     body.embedded .container{margin-top:14px}
+    @media(max-width:900px){
+      .plans{grid-template-columns:1fr}
+    }
     @media(max-width:700px){
       .container{padding:0 12px}
-      .intro{padding:16px 14px}
+      .hero-box{padding:18px 14px;border-radius:14px}
+      .hero-box h1{font-size:1.72rem}
       .plan-card{padding:14px}
+      .closing{padding:14px}
     }
   </style>
 </head>
@@ -83,41 +154,56 @@
   </nav>
 
   <main class="container">
-    <section class="intro">
+    <section class="hero-box">
+      <p class="kicker"><i class="fa-solid fa-compass"></i> Visão Blue Lava</p>
       <h1>Planos para o Futuro</h1>
-      <p>Na Blue Lava, queremos continuar a crescer com propósito, criando projetos que apoiem o bem-estar, a neurodivergência, a saúde mental e a partilha de experiências transformadoras. Estes são alguns dos caminhos que queremos explorar no futuro.</p>
+      <p>Na Blue Lava, acreditamos na criação de projetos com impacto real na vida das pessoas. Queremos continuar a desenvolver iniciativas que reforcem o bem-estar, ampliem a compreensão da neurodivergência e aproximem cada vez mais as pessoas de apoio, conhecimento e inspiração.</p>
     </section>
 
     <section class="plans" aria-label="Lista de planos futuros da Blue Lava">
       <article class="plan-card">
-        <span class="plan-rank">1</span>
-        <h2>Plataforma de apoio psicológico com encaminhamento profissional</h2>
-        <p>Desenvolver uma solução digital de apoio inicial e triagem emocional, capaz de orientar cada pessoa e encaminhá-la para psicólogos parceiros da Blue Lava, criando uma ponte mais simples entre quem procura ajuda e quem a pode oferecer.</p>
+        <div class="plan-head">
+          <span class="plan-rank">1</span>
+          <h2>Plataforma de apoio psicológico com encaminhamento profissional</h2>
+        </div>
+        <p>Desenvolver uma solução digital de apoio inicial e triagem emocional, capaz de orientar cada pessoa e encaminhá-la para psicólogos parceiros da Blue Lava, de forma simples, humana e eficaz.</p>
       </article>
 
       <article class="plan-card">
-        <span class="plan-rank">2</span>
-        <h2>Podcast com histórias reais de neurodivergência</h2>
-        <p>Criar episódios onde pessoas neurodivergentes possam partilhar as suas experiências, desafios e conquistas, promovendo empatia, identificação e sentido de comunidade.</p>
+        <div class="plan-head">
+          <span class="plan-rank">2</span>
+          <h2>Podcast com histórias reais de neurodivergência</h2>
+        </div>
+        <p>Criar um espaço de partilha com o intuito de dar voz a pessoas neurodivergentes, aprofundar a compreensão das suas vivências e promover uma cultura de maior empatia, escuta e consciência.</p>
       </article>
 
       <article class="plan-card">
-        <span class="plan-rank">3</span>
-        <h2>Podcast com pessoas de sucesso que vivem com neurodivergência</h2>
-        <p>Dar voz a pessoas inspiradoras que vivem com neurodivergência, mostrando exemplos reais de superação, talento e sucesso para motivar outras pessoas.</p>
+        <div class="plan-head">
+          <span class="plan-rank">3</span>
+          <h2>Podcast com pessoas de sucesso que vivem com neurodivergência</h2>
+        </div>
+        <p>Destacar percursos inspiradores de pessoas que vivem com neurodivergência, com o objetivo de mostrar que o sucesso pode assumir diferentes formas e que cada pessoa tem potencial para construir o seu próprio caminho.</p>
       </article>
 
       <article class="plan-card">
-        <span class="plan-rank">4</span>
-        <h2>Aulas de yoga no canal de YouTube</h2>
-        <p>Publicar conteúdos de yoga orientados pela Natacha, incluindo desafios mensais com práticas diferentes, incentivando o bem-estar físico e mental de forma acessível.</p>
+        <div class="plan-head">
+          <span class="plan-rank">4</span>
+          <h2>Aulas de yoga no canal de YouTube</h2>
+        </div>
+        <p>Disponibilizar aulas de yoga orientadas por uma profissional, bem como desafios mensais pensados para promover equilíbrio, disciplina e bem-estar físico e mental.</p>
       </article>
 
       <article class="plan-card">
-        <span class="plan-rank">5</span>
-        <h2>Mini documentários sobre processos de cura e transformação pessoal</h2>
-        <p>Produzir conteúdos documentais sobre pessoas em processos de cura, autoconhecimento e transformação, explorando diferentes perspetivas sobre bem-estar e healing.</p>
+        <div class="plan-head">
+          <span class="plan-rank">5</span>
+          <h2>Mini documentários sobre processos de cura e transformação pessoal</h2>
+        </div>
+        <p>Produzir conteúdos documentais centrados em percursos de cura, autoconhecimento e transformação, com foco em diferentes abordagens ao bem-estar e ao processo de reconexão pessoal.</p>
       </article>
+    </section>
+
+    <section class="closing" aria-label="Fecho da visão futura">
+      <p>Estes planos refletem a direção em que queremos crescer: com mais impacto, mais consciência e uma ligação cada vez mais verdadeira com as pessoas.</p>
     </section>
   </main>
 
