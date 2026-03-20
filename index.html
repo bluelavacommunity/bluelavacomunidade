@@ -12,6 +12,11 @@
                 html,body{margin:0;color:var(--text);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;background-color:#0b1f3d;background-image:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),url('assets/images/background-fixed.jpg'),url('assets/images/background website.jpeg');background-repeat:no-repeat,no-repeat,no-repeat;background-position:center center,center center,center center;background-size:cover,cover,cover;background-attachment:fixed,fixed,fixed}
                                .top-banner{background:linear-gradient(180deg,#000f2a,#2b4cb8);color:#fff;padding:14px 16px}
                                                                     .top-banner-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+                        .news-feed{background:#ff6f3d;color:#fff;padding:10px 0;overflow:hidden;white-space:nowrap;position:relative}
+                        .news-feed-track{display:inline-flex;align-items:center;gap:28px;min-width:max-content;padding:0 16px;animation:newsTicker 90s linear infinite;will-change:transform}
+                        .news-feed:hover .news-feed-track{animation-play-state:paused}
+                        .news-tip{font-size:.94rem;font-weight:600}
+                        @keyframes newsTicker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
                                 .banner-title{font-weight:700;font-size:1.05rem;font-family:'Inter',sans-serif}
                                                                                  .social-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#000;color:#fff;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.28);transition:transform .15s ease,opacity .15s ease}
                 .social-btn:hover{transform:translateY(-1px);opacity:.92}
@@ -24,6 +29,7 @@
                 .hero-quote{margin:14px 0 8px;font-family:'Inter',sans-serif;font-weight:700;font-size:2.4rem;line-height:1.12}
                 .stat{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:12px 18px;border-radius:12px}
                 .btn{margin-top:18px;background:var(--white);color:var(--primary);padding:11px 24px;border:none;border-radius:999px;font-weight:600;font-family:'Inter',sans-serif;text-transform:none;cursor:pointer}
+                .btn.global-share,.btn.submit-share{background:var(--primary);color:var(--white)}
                         .letter-wrap{max-width:980px;margin:-96px auto 40px;padding:0 18px;position:relative;z-index:2}
                         .letter{background:#fff;border:1px solid #ececec;border-radius:12px;box-shadow:0 14px 40px rgba(0,0,0,.08);padding:24px;line-height:1.7}
                         .letter h2{margin:0 0 12px;font-family:'Patrick Hand',cursive;font-size:2rem}
@@ -33,8 +39,10 @@
                         .letter-cta button{background:var(--primary);color:#fff;padding:10px 18px;border:none;border-radius:8px;cursor:pointer;font-weight:700}
                         /* Stories feed styles */
                         .site-nav{background:#fff;border-bottom:1px solid rgba(0,0,0,.04)}
-                        .site-nav .nav-link{padding:12px 14px;color:inherit;text-decoration:none;font-family:'Inter',sans-serif;font-weight:500}
-                        .site-nav .nav-link.active{color:var(--primary);font-weight:700}
+                        .site-nav .nav-link{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;border:1px solid #dbe8ff;background:#f8fbff;color:#1f4f8f;text-decoration:none;font-family:'Inter',sans-serif;font-weight:700;transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease}
+                        .site-nav .nav-link:hover{transform:translateY(-1px);box-shadow:0 8px 16px rgba(74,144,226,.18);background:#eef6ff}
+                        .site-nav .nav-link:focus-visible{outline:2px solid #1f4f8f;outline-offset:2px}
+                        .site-nav .nav-link.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 8px 18px rgba(74,144,226,.28)}
                         .tagline-text{font-family:'Inter',sans-serif;font-size:1.05rem;color:#fff;text-align:center;padding:12px 16px;opacity:.95}
                         .stories-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
                         @media(min-width:800px){.stories-grid{grid-template-columns:repeat(2,1fr)}}
@@ -64,18 +72,34 @@
                         <img src="logo.png" alt="logo" style="max-width:120px;display:block;margin:0">
                         <div class="banner-title">Comunidade Blue Lava</div>
                         <div style="margin-left:8px;display:flex;gap:10px;align-items:center">
-                                  <a class="social-btn" href="https://chat.whatsapp.com/I2DYIq1923JKIiv37BQ2LE?mode=hqctswa" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                                  <a class="social-btn" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                                  <a class="social-btn" href="#" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
                                   <a class="social-btn" href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+                                  <a class="social-btn" href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                         </div>
                 </div>
         </header>
 
+        <div class="news-feed" role="region" aria-label="Dicas rápidas para manter a calma">
+                <div class="news-feed-track">
+                        <span class="news-tip">🫁 Pânico: inspira 4 segundos e expira 6 segundos, devagar.</span>
+                        <span class="news-tip">🧠 Ansiedade: usa o método 5-4-3-2-1 para voltar ao presente.</span>
+                        <span class="news-tip">💼 Stress: ciclo 25-5 (foco curto + pausa curta) ajuda a regular o corpo.</span>
+                        <span class="news-tip">🔥 Burnout: respeita limites e reduz tarefas extra no dia crítico.</span>
+                        <span class="news-tip">🌤️ Depressão: uma micro-vitória por dia já conta como progresso.</span>
+                        <span class="news-tip">🔁 TOC: adiar o ritual por 2 minutos pode quebrar o ciclo.</span>
+                        <span class="news-tip">🗣️ Esquizofrenia: ativa o teu plano de apoio (ligar, sentar, respirar, pedir ajuda).</span>
+                        <span class="news-tip">🧩 Autismo: usa pausas sensoriais e um kit de autorregulação.</span>
+                        <span class="news-tip">🚨 Crise aguda: em emergência liga 112 ou SNS 24 (808 24 24 24).</span>
+                </div>
+        </div>
+
         <nav class="site-nav" aria-label="Main navigation">
                 <div class="container" style="display:flex;gap:12px;align-items:center;justify-content:center">
-                        <a href="portal.html?tab=historias" class="nav-link active">Histórias</a>
-                        <a href="portal.html?tab=compreender" class="nav-link">Compreender</a>
-                        <a href="portal.html?tab=recursos" class="nav-link">Recursos</a>
-                        <a href="portal.html?tab=origem" class="nav-link">Origem</a>
+                        <a href="bluelava-community/comunidade.html?tab=historias" class="nav-link active">Histórias</a>
+                        <a href="bluelava-community/comunidade.html?tab=compreender" class="nav-link">Compreender</a>
+                        <a href="bluelava-community/comunidade.html?tab=recursos" class="nav-link">Recursos</a>
+                        <a href="bluelava-community/comunidade.html?tab=origem" class="nav-link">Origem</a>
                 </div>
         </nav>
 
@@ -88,13 +112,13 @@
                 <section id="storiesFeed" class="stories-grid"></section>
 
                 <div id="sharePanel" class="card" style="display:none;margin-top:18px">
-                        <h2 style="margin-top:0">Partilhar a história</h2>
+                        <h2 style="margin-top:0">Partilha connosco</h2>
                         <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
                                 <input id="storyName" type="text" placeholder="O seu nome (opcional)">
                                 <label style="display:inline-flex;align-items:center;gap:6px;margin-left:6px"><input id="storyAnon" type="checkbox"> Anónimo</label>
                         </div>
                         <textarea id="storyText" placeholder="Escreve a tua história..."></textarea>
-                        <div style="text-align:right;margin-top:10px"><button id="submitStory" class="btn">Partilhar</button></div>
+                        <div style="text-align:right;margin-top:10px"><button id="submitStory" class="btn submit-share">Partilha connosco</button></div>
                 </div>
         </main>
 
@@ -224,13 +248,13 @@
                                 feed.appendChild(card);
                                 if ((i % 4) === 3) {
                                         const cta = document.createElement('div'); cta.className='cta-block card';
-                                        cta.innerHTML = '<p style="margin:0 0 8px">Se te identificaste com isto…</p><div style="text-align:right"><button class="btn global-share">Partilhar a minha história</button></div>';
+                                        cta.innerHTML = '<p style="margin:0 0 8px">Se tens algo preso dentro de ti, partilha...</p><div style="text-align:right"><button class="btn global-share">Partilha connosco</button></div>';
                                         feed.appendChild(cta);
                                 }
                         });
                         if (stories.length>0 && stories.length<4) {
                                 const cta = document.createElement('div'); cta.className='cta-block card';
-                                cta.innerHTML = '<p style="margin:0 0 8px">Se te identificaste com isto…</p><div style="text-align:right"><button class="btn global-share">Partilhar a minha história</button></div>';
+                                cta.innerHTML = '<p style="margin:0 0 8px">Se tens algo preso dentro de ti, partilha...</p><div style="text-align:right"><button class="btn global-share">Partilha connosco</button></div>';
                                 feed.appendChild(cta);
                         }
                         document.querySelectorAll('.read-more').forEach(btn=>{ btn.addEventListener('click', ()=>{ const id = Number(btn.dataset.id); toggleExpand(id); }); });
