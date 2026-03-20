@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BlueLava - Planos para o Futuro</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <style>
+    :root{--primary:#4A90E2;--white:#fff;--ink:#22314a}
+    html,body{margin:0}
+    body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;background:#0b1f3d;color:#fff}
+    .top-banner{background:linear-gradient(180deg,#000f2a,#2b4cb8);color:#fff;padding:14px 16px}
+    .top-banner-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+    .banner-title{font-weight:700;font-size:1.05rem}
+    .social-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#000;color:#fff;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.28);transition:transform .15s ease,opacity .15s ease}
+    .social-btn:hover{transform:translateY(-1px);opacity:.92}
+    .social-btn i{font-size:18px}
+    .news-feed{background:#ff6f3d;color:#fff;padding:10px 0;overflow:hidden;white-space:nowrap;position:relative}
+    .news-feed-track{display:inline-flex;align-items:center;gap:28px;min-width:max-content;padding:0 16px;animation:newsTicker 90s linear infinite;will-change:transform}
+    .news-feed:hover .news-feed-track{animation-play-state:paused}
+    .news-tip{font-size:.94rem;font-weight:600}
+    @keyframes newsTicker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+    .site-nav{background:#fff;border-bottom:1px solid rgba(0,0,0,.04)}
+    .site-nav .nav-link{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;min-height:44px;border-radius:999px;border:1px solid #dbe8ff;background:#f8fbff;color:#1f4f8f;text-decoration:none;font-weight:700;transition:transform .15s ease,box-shadow .15s ease,background .15s ease,color .15s ease;text-align:center;line-height:1.2}
+    .site-nav .nav-link:hover{transform:translateY(-1px);box-shadow:0 8px 16px rgba(74,144,226,.18);background:#eef6ff}
+    .site-nav .nav-link:focus-visible{outline:2px solid #1f4f8f;outline-offset:2px}
+    .site-nav .nav-link.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 8px 18px rgba(74,144,226,.28)}
+    .container{max-width:1040px;margin:22px auto;padding:0 16px}
+    .intro{background:linear-gradient(140deg,#f6fbff,#ffffff);color:var(--ink);border:1px solid #d8e8ff;border-radius:14px;padding:20px 18px;box-shadow:0 10px 28px rgba(0,0,0,.08)}
+    .intro h1{margin:0 0 10px;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15}
+    .intro p{margin:0;line-height:1.72;color:#2b4263}
+    .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+    .plan-card{background:#fff;color:#1f2f46;border-radius:12px;padding:16px 16px 14px;border:1px solid #e6edf7;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .plan-rank{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#eaf4ff;color:#1b5fb6;font-weight:800;margin-bottom:10px}
+    .plan-card h2{margin:0 0 8px;font-size:1.02rem;line-height:1.35}
+    .plan-card p{margin:0;color:#304866;line-height:1.62;font-size:.97rem}
+    body.embedded .top-banner, body.embedded .news-feed, body.embedded .site-nav{display:none !important}
+    body.embedded .container{margin-top:14px}
+    @media(max-width:700px){
+      .container{padding:0 12px}
+      .intro{padding:16px 14px}
+      .plan-card{padding:14px}
+    }
+  </style>
+</head>
+<body>
+  <header class="top-banner">
+    <div class="top-banner-inner">
+      <img src="logo.png" alt="logo" style="max-width:120px;display:block;margin:0">
+      <div class="banner-title">Comunidade Blue Lava</div>
+      <div style="margin-left:8px;display:flex;gap:10px;align-items:center">
+        <a class="social-btn" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a class="social-btn" href="#" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+        <a class="social-btn" href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+        <a class="social-btn" href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="news-feed" role="region" aria-label="Dicas rápidas para manter a calma">
+    <div class="news-feed-track">
+      <span class="news-tip">🫁 Pânico: inspira 4 segundos e expira 6 segundos, devagar.</span>
+      <span class="news-tip">🧠 Ansiedade: usa o método 5-4-3-2-1 para voltar ao presente.</span>
+      <span class="news-tip">💼 Stress: ciclo 25-5 (foco curto + pausa curta) ajuda a regular o corpo.</span>
+      <span class="news-tip">🔥 Burnout: respeita limites e reduz tarefas extra no dia crítico.</span>
+      <span class="news-tip">🌤️ Depressão: uma micro-vitória por dia já conta como progresso.</span>
+      <span class="news-tip">🔁 TOC: adiar o ritual por 2 minutos pode quebrar o ciclo.</span>
+      <span class="news-tip">🗣️ Esquizofrenia: ativa o teu plano de apoio (ligar, sentar, respirar, pedir ajuda).</span>
+      <span class="news-tip">🧩 Autismo: usa pausas sensoriais e um kit de autorregulação.</span>
+      <span class="news-tip">🚨 Crise aguda: em emergência liga 112 ou SNS 24 (808 24 24 24).</span>
+    </div>
+  </div>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="container" style="display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;padding:8px 4px">
+      <a href="comunidade.html?tab=historias" class="nav-link">Histórias</a>
+      <a href="comunidade.html?tab=compreender" class="nav-link">Compreender</a>
+      <a href="comunidade.html?tab=recursos" class="nav-link">Recursos</a>
+      <a href="comunidade.html?tab=origem" class="nav-link">Origem</a>
+      <a href="comunidade.html?tab=futuro" class="nav-link active">Planos para o Futuro</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="intro">
+      <h1>Planos para o Futuro</h1>
+      <p>Na Blue Lava, queremos continuar a crescer com propósito, criando projetos que apoiem o bem-estar, a neurodivergência, a saúde mental e a partilha de experiências transformadoras. Estes são alguns dos caminhos que queremos explorar no futuro.</p>
+    </section>
+
+    <section class="plans" aria-label="Lista de planos futuros da Blue Lava">
+      <article class="plan-card">
+        <span class="plan-rank">1</span>
+        <h2>Plataforma de apoio psicológico com encaminhamento profissional</h2>
+        <p>Desenvolver uma solução digital de apoio inicial e triagem emocional, capaz de orientar cada pessoa e encaminhá-la para psicólogos parceiros da Blue Lava, criando uma ponte mais simples entre quem procura ajuda e quem a pode oferecer.</p>
+      </article>
+
+      <article class="plan-card">
+        <span class="plan-rank">2</span>
+        <h2>Podcast com histórias reais de neurodivergência</h2>
+        <p>Criar episódios onde pessoas neurodivergentes possam partilhar as suas experiências, desafios e conquistas, promovendo empatia, identificação e sentido de comunidade.</p>
+      </article>
+
+      <article class="plan-card">
+        <span class="plan-rank">3</span>
+        <h2>Podcast com pessoas de sucesso que vivem com neurodivergência</h2>
+        <p>Dar voz a pessoas inspiradoras que vivem com neurodivergência, mostrando exemplos reais de superação, talento e sucesso para motivar outras pessoas.</p>
+      </article>
+
+      <article class="plan-card">
+        <span class="plan-rank">4</span>
+        <h2>Aulas de yoga no canal de YouTube</h2>
+        <p>Publicar conteúdos de yoga orientados pela Natacha, incluindo desafios mensais com práticas diferentes, incentivando o bem-estar físico e mental de forma acessível.</p>
+      </article>
+
+      <article class="plan-card">
+        <span class="plan-rank">5</span>
+        <h2>Mini documentários sobre processos de cura e transformação pessoal</h2>
+        <p>Produzir conteúdos documentais sobre pessoas em processos de cura, autoconhecimento e transformação, explorando diferentes perspetivas sobre bem-estar e healing.</p>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('embed') === '1') document.body.classList.add('embedded');
+      if (params.get('anon') === '1') {
+        document.querySelectorAll('a').forEach(a => {
+          const href = a.getAttribute('href');
+          if (!href) return;
+          if (href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:')) return;
+          a.href = href + (href.includes('?') ? '&anon=1' : '?anon=1');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

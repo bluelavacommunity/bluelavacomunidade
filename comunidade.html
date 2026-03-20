@@ -21,8 +21,8 @@
     .news-feed:hover .news-feed-track{animation-play-state:paused}
     .news-tip{font-size:.94rem;font-weight:600}
     @keyframes newsTicker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
-    .tabs{display:flex;gap:8px;padding:12px;justify-content:center;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.05);position:sticky;top:0;z-index:50}
-    .tab{padding:10px 16px;min-height:44px;border-radius:999px;background:#f8fbff;border:1px solid #dbe8ff;cursor:pointer;font-weight:700;color:#1f4f8f;transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease}
+    .tabs{display:flex;flex-wrap:wrap;gap:8px;padding:12px;justify-content:center;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.05);position:sticky;top:0;z-index:50}
+    .tab{padding:10px 16px;min-height:44px;border-radius:999px;background:#f8fbff;border:1px solid #dbe8ff;cursor:pointer;font-weight:700;color:#1f4f8f;transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;line-height:1.2;text-align:center}
     .tab:hover{transform:translateY(-1px);box-shadow:0 8px 16px rgba(74,144,226,.18);background:#eef6ff}
     .tab:focus-visible{outline:2px solid #1f4f8f;outline-offset:2px}
     .tab.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 8px 18px rgba(74,144,226,.28)}
@@ -68,6 +68,7 @@
     <button class="tab" data-tab="compreender">Compreender</button>
     <button class="tab" data-tab="recursos">Recursos</button>
     <button class="tab" data-tab="origem">A Origem</button>
+    <button class="tab" data-tab="futuro">Planos para o Futuro</button>
   </div>
 
   <div class="frame-wrap">
@@ -86,7 +87,8 @@
         historias: 'historias.html?embed=1',
         compreender: 'community.html?embed=1',
         recursos: 'recursos.html?embed=1',
-        origem: 'origem.html?embed=1'
+        origem: 'origem.html?embed=1',
+        futuro: 'futuro.html?embed=1'
       };
       let src = map[tab] || map['historias'];
       if (preserveAnon) src += (src.includes('?') ? '&anon=1' : '?anon=1');

@@ -19,8 +19,8 @@
     .news-feed:hover .news-feed-track{animation-play-state:paused}
     .news-tip{font-size:.94rem;font-weight:600}
     @keyframes newsTicker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
-    .tabs{display:flex;gap:8px;justify-content:center;padding:12px;background:#fff}
-    .tab{padding:10px 14px;min-height:44px;border-radius:999px;background:#f8fbff;color:#1f4f8f;text-decoration:none;font-weight:700;border:1px solid #dbe8ff;transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease}
+    .tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:12px;background:#fff}
+    .tab{padding:10px 14px;min-height:44px;border-radius:999px;background:#f8fbff;color:#1f4f8f;text-decoration:none;font-weight:700;border:1px solid #dbe8ff;transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;line-height:1.2;text-align:center}
     .tab:hover{transform:translateY(-1px);box-shadow:0 8px 16px rgba(74,144,226,.18);background:#eef6ff}
     .tab:focus-visible{outline:2px solid #1f4f8f;outline-offset:2px}
     .tab.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 8px 18px rgba(74,144,226,.28)}
@@ -63,6 +63,7 @@
     <a href="#" class="tab" data-tab="compreender">Compreender</a>
     <a href="#" class="tab" data-tab="recursos">Recursos</a>
     <a href="#" class="tab" data-tab="origem">Origem</a>
+    <a href="#" class="tab" data-tab="futuro">Planos para o Futuro</a>
   </nav>
 
   <main class="wrap">
@@ -85,7 +86,8 @@
             'historias': 'historias.html',
             'compreender': 'community.html',
             'recursos': 'recursos.html',
-            'origem': 'origem.html'
+            'origem': 'origem.html',
+            'futuro': 'futuro.html'
           };
         let src = map[tab] || map['historias'];
         if (preserveAnon) src += (src.includes('?')? '&anon=1' : '?anon=1');
