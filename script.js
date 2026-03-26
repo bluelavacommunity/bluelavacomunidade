@@ -24,4 +24,16 @@ document.addEventListener('DOMContentLoaded', function(){
   // Current year in footer
   var yearEl = document.getElementById('year');
   if(yearEl) yearEl.textContent = new Date().getFullYear();
+  
+  // Section reveal on scroll (minimal, accessible)
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.intersectionRatio > 0.12){
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold: 0.12});
+
+  document.querySelectorAll('.animate').forEach(function(el){ observer.observe(el); });
 });
