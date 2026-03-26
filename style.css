@@ -1,0 +1,74 @@
+/*
+  style.css — Minimal, readable, mobile-first styles
+  Dark, premium, calm aesthetic. Easy to edit.
+*/
+
+:root{
+  --bg:#071029; /* deep navy */
+  --card:#0f1a2b;
+  --muted:#97a6b8;
+  --accent:#60a5ff; /* soft blue */
+  --white:#ffffff;
+  --radius:12px;
+}
+
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--white);-webkit-font-smoothing:antialiased}
+.container{max-width:1100px;padding:20px;margin:0 auto}
+
+/* Header */
+.site-header{position:sticky;top:0;backdrop-filter:blur(6px);background:linear-gradient(180deg,rgba(2,6,23,0.6),rgba(2,6,23,0.45));border-bottom:1px solid rgba(255,255,255,0.03);z-index:50}
+.nav-row{display:flex;align-items:center;gap:16px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--white)}
+.logo{height:44px;width:auto;display:block}
+.brand-name{font-weight:700}
+.nav-toggle{display:none;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white);padding:8px 12px;border-radius:8px}
+.site-nav{display:flex;gap:12px;align-items:center}
+.site-nav a{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:8px;transition:all .15s ease}
+.site-nav a:hover{color:var(--white);background:rgba(255,255,255,0.02);transform:translateY(-2px)}
+.nav-actions{display:flex;gap:10px;align-items:center}
+
+/* Buttons */
+.btn{display:inline-block;padding:10px 16px;border-radius:999px;text-decoration:none;font-weight:700;transition:transform .12s ease,box-shadow .12s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:linear-gradient(180deg,var(--accent),#3b82f6);color:var(--white);box-shadow:0 6px 18px rgba(59,130,246,0.12)}
+.btn-outline{border:1px solid rgba(255,255,255,0.06);color:var(--white);background:transparent}
+.large{padding:12px 20px}
+
+/* Hero */
+.hero{padding:80px 0 48px}
+.hero-inner{display:flex;gap:32px;align-items:center;flex-direction:column-reverse}
+.hero-copy{text-align:center}
+.hero-title{font-size:2rem;margin:0 0 8px;font-weight:700}
+.hero-sub{color:var(--muted);margin:0 0 18px}
+.hero-graphic{width:280px;max-width:48vw;border-radius:12px;filter:drop-shadow(0 20px 40px rgba(2,6,23,0.6))}
+
+/* Sections */
+.section{padding:48px 0}
+.about .lead{color:var(--muted);max-width:760px}
+.community .links{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.social{display:inline-block;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,0.02);color:var(--white);text-decoration:none}
+
+/* Footer */
+.site-footer{border-top:1px solid rgba(255,255,255,0.03);padding:28px 0;margin-top:36px}
+.footer-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.footer-grid ul{list-style:none;padding:0;margin:8px 0 0;color:var(--muted)}
+.muted{color:var(--muted)}
+.copyright{padding-top:18px;color:var(--muted);font-size:0.9rem}
+
+/* Responsive */
+@media(min-width:900px){
+  .hero-inner{flex-direction:row}
+  .site-nav{display:flex}
+  .nav-toggle{display:none}
+  .footer-grid{grid-template-columns:1fr 1fr 1fr}
+}
+
+@media(max-width:899px){
+  .site-nav{display:none}
+  .nav-toggle{display:inline-flex}
+}
+
+/* Small accessibility helpers */
+a:focus{outline:2px solid rgba(96,165,255,0.24);outline-offset:3px}
+
+/* Keep styles minimal and easy to edit for beginners */
