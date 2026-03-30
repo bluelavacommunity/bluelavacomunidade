@@ -1,6 +1,6 @@
 # Blue Lava Comunidade — Static GitHub Pages site
 
-This repository is prepared to be published as a GitHub Pages user site at:
+This repository is intended to be published as a GitHub Pages user site at:
 
   https://bluelavacomunidade.github.io
 
@@ -18,9 +18,9 @@ Quick edits (beginner friendly)
 - Update links: edit anchor `href` values in `index.html` (Join/Visit/Instagram placeholders currently set to `#`).
 
 Publish on GitHub Pages
-1. Create a repository named exactly `bluelavacomunidade.github.io` under your GitHub account `bluelavacomunidade`.
-2. Push this project to that repository's `main` branch.
-3. GitHub Pages will serve the files from the repository root. The site will be available at `https://bluelavacomunidade.github.io` shortly after push.
+1. Use the repository `bluelavacomunidade/bluelavacomunidade.github.io`.
+2. Push this project to the `main` branch of that repository.
+3. The site will be available at `https://bluelavacomunidade.github.io` shortly after push.
 
 Notes & Tips
 - This is a static site — no backend or framework. Keep edits simple.
