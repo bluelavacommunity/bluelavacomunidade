@@ -146,6 +146,7 @@
       const supabaseUrl = String(config.supabaseUrl || '').trim();
       const supabaseAnonKey = String(config.supabaseAnonKey || '').trim();
       const supabaseEnabled = Boolean(window.supabase && supabaseUrl && supabaseAnonKey);
+      const PRESERVED_STORY_AUTHOR = 'ametista';
 
       // Character counter
       const storyText = document.getElementById('storyText');
@@ -274,6 +275,7 @@
         const { data, error } = await supabaseClient
           .from('stories')
           .select('id,nickname,is_anonymous,story_text,reactions,created_at')
+          .eq('nickname', PRESERVED_STORY_AUTHOR)
           .order('created_at', { ascending: false })
           .limit(200);
         if (error) throw error;
@@ -281,6 +283,15 @@
       }
 
       async function loadAndRenderStories(){
+        if (!supabaseClient) {
+          removeLegacySampleStories();
+          const stories = getStories()
+            .filter(story => String(story.name || '').trim().toLowerCase() === PRESERVED_STORY_AUTHOR)
+            .slice()
+            .sort((a,b)=>b.createdAt - a.createdAt);
+          renderStories(stories);
+          return;
+        }
         if (!supabaseClient) {
           removeLegacySampleStories();
           const stories = getStories().slice().sort((a,b)=>b.createdAt - a.createdAt);
