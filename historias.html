@@ -315,7 +315,8 @@
               reactions: {}
             });
           if (error) {
-            setStatus('Nao foi possivel publicar agora. Tenta novamente.', 'error');
+            console.error('Supabase error:', error);
+            setStatus(`Erro: ${error.message || 'Nao foi possivel publicar agora. Tenta novamente.'}`, 'error');
             return;
           }
         } else {
