@@ -146,7 +146,6 @@
       const supabaseUrl = String(config.supabaseUrl || '').trim();
       const supabaseAnonKey = String(config.supabaseAnonKey || '').trim();
       const supabaseEnabled = Boolean(window.supabase && supabaseUrl && supabaseAnonKey);
-      const PRESERVED_STORY_AUTHOR = 'ametista';
 
       // Character counter
       const storyText = document.getElementById('storyText');
@@ -191,7 +190,7 @@
       function saveStories(v){ localStorage.setItem('bluelava_stories', JSON.stringify(v)); }
       function removeLegacySampleStories(){
         const stories = getStories();
-        const filtered = stories.filter(story => !LEGACY_SAMPLE_TEXTS.has(story.text));
+        const filtered = stories.filter(story => !LEGACY_SAMPLE_TEXTS.has(story.text) && !isBannedStory(story));
         if (filtered.length !== stories.length) saveStories(filtered);
       }
       function escapeHtml(str){
@@ -201,6 +200,11 @@
           .replace(/>/g,'&gt;')
           .replace(/\"/g,'&quot;')
           .replace(/'/g,'&#39;');
+      }
+
+      function isBannedStory(story){
+        const text = String(story.text || '').toLowerCase().trim();
+        return text === 'healthcheck story sync test' || text.includes('healthcheck') || text.includes('sync test');
       }
 
       function reactionsHtml(story){
@@ -275,7 +279,6 @@
         const { data, error } = await supabaseClient
           .from('stories')
           .select('id,nickname,is_anonymous,story_text,reactions,created_at')
-          .eq('nickname', PRESERVED_STORY_AUTHOR)
           .order('created_at', { ascending: false })
           .limit(200);
         if (error) throw error;
@@ -285,21 +288,12 @@
       async function loadAndRenderStories(){
         if (!supabaseClient) {
           removeLegacySampleStories();
-          const stories = getStories()
-            .filter(story => String(story.name || '').trim().toLowerCase() === PRESERVED_STORY_AUTHOR)
-            .slice()
-            .sort((a,b)=>b.createdAt - a.createdAt);
-          renderStories(stories);
-          return;
-        }
-        if (!supabaseClient) {
-          removeLegacySampleStories();
-          const stories = getStories().slice().sort((a,b)=>b.createdAt - a.createdAt);
+          const stories = getStories().filter(story => !isBannedStory(story)).slice().sort((a,b)=>b.createdAt - a.createdAt);
           renderStories(stories);
           return;
         }
         try {
-          const stories = await loadRemoteStories();
+          const stories = (await loadRemoteStories()).filter(story => !isBannedStory(story));
           renderStories(stories);
         } catch (err) {
           console.error(err);
