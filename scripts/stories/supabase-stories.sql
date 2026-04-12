@@ -26,7 +26,7 @@ on public.stories
 for insert
 with check (
   char_length(trim(story_text)) > 0
-  and char_length(trim(story_text)) <= 7500
+  and char_length(trim(story_text)) <= 10000
   and char_length(coalesce(nickname, '')) <= 80
 );
 
@@ -38,7 +38,7 @@ for update
 using (true)
 with check (
   char_length(trim(story_text)) > 0
-  and char_length(trim(story_text)) <= 7500
+  and char_length(trim(story_text)) <= 10000
   and char_length(coalesce(nickname, '')) <= 80
 );
 

@@ -119,6 +119,7 @@
         <label class="share-anon"><input id="storyAnon" type="checkbox" checked> Partilhar anonimamente</label>
       </div>
       <textarea id="storyText" placeholder="Algo que nunca disse a ninguém é..."></textarea>
+      <div id="charCounter" style="text-align:right; margin-top:5px; font-size:0.9rem; color:#666;">0 / 10000 caracteres</div>
       <div style="text-align:right;margin-top:10px"><button id="submitStory" class="btn">Partilhar experiência</button></div>
     </section>
   </main>
@@ -145,6 +146,22 @@
       const supabaseUrl = String(config.supabaseUrl || '').trim();
       const supabaseAnonKey = String(config.supabaseAnonKey || '').trim();
       const supabaseEnabled = Boolean(window.supabase && supabaseUrl && supabaseAnonKey);
+
+      // Character counter
+      const storyText = document.getElementById('storyText');
+      const charCounter = document.getElementById('charCounter');
+      function updateCounter() {
+        const length = storyText.value.length;
+        charCounter.textContent = `${length} / 10000 caracteres`;
+        if (length > 10000) {
+          charCounter.style.color = '#b42318'; // error color
+        } else if (length > 9000) {
+          charCounter.style.color = '#f59e0b'; // warning color
+        } else {
+          charCounter.style.color = '#666';
+        }
+      }
+      storyText.addEventListener('input', updateCounter);
 
       const EMOJIS = ['🍿','🤯','😢','🫂','😁'];
       const LEGACY_SAMPLE_TEXTS = new Set([
@@ -286,7 +303,7 @@
         const anonymous = document.getElementById('storyAnon').checked;
         const text = document.getElementById('storyText').value.trim();
         if (!text) return alert('Escreve a tua experiência.');
-        if (text.length > 7500) return alert('A tua história é demasiado longa. O limite é 7500 caracteres.');
+        if (text.length > 10000) return alert('A tua história é demasiado longa. O limite é 10000 caracteres.');
 
         if (supabaseClient) {
           const { error } = await supabaseClient
