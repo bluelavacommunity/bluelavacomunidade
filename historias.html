@@ -46,6 +46,10 @@
     .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;background:var(--primary);color:#fff;padding:10px 16px;border:none;border-radius:999px;font-weight:700;cursor:pointer}
     body.embedded .top-banner, body.embedded .news-feed, body.embedded .site-nav, body.embedded .tagline, body.embedded footer{display:none !important}
     body.embedded .container{margin-top:14px}
+    .top-banner,.news-feed,.site-nav{transition:transform .3s ease,opacity .3s ease,margin .3s ease}
+    body.hide-header .top-banner{transform:translateY(-100%);opacity:0;pointer-events:none}
+    body.hide-header .news-feed{transform:translateY(-100%);opacity:0;pointer-events:none}
+    body.hide-header .site-nav{transform:translateY(-100%);opacity:0;pointer-events:none}
     @media(max-width:700px){
       html,body{background-attachment:scroll,scroll,scroll}
       .container{padding:0 12px}
@@ -282,6 +286,7 @@
         const anonymous = document.getElementById('storyAnon').checked;
         const text = document.getElementById('storyText').value.trim();
         if (!text) return alert('Escreve a tua experiência.');
+        if (text.length > 7500) return alert('A tua história é demasiado longa. O limite é 7500 caracteres.');
 
         if (supabaseClient) {
           const { error } = await supabaseClient
@@ -328,6 +333,35 @@
       }
 
       loadAndRenderStories();
+    })();
+
+    // Hide header on scroll down
+    (function() {
+      let lastScrollTop = 0;
+      let ticking = false;
+
+      function updateHeader() {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Only hide header if scrolling down past 100px
+        if (currentScroll > 100 && currentScroll > lastScrollTop) {
+          // Scrolling down
+          document.body.classList.add('hide-header');
+        } else {
+          // Scrolling up
+          document.body.classList.remove('hide-header');
+        }
+        
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(updateHeader);
+          ticking = true;
+        }
+      }, false);
     })();
   </script>
 </body>
