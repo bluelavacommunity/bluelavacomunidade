@@ -32,6 +32,12 @@
     .story-card{margin:0 0 4px}
     .story-text{margin:0;color:#222;white-space:pre-wrap}
     .story-author{margin-top:10px;font-weight:600;color:#444}
+    .comment-card{margin-top:10px;padding:12px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc}
+    .comment-form{margin-top:12px;border-top:1px solid #e2e8f0;padding-top:12px}
+    .comment-form textarea{width:100%;min-height:80px;resize:vertical;padding:10px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;font-family:'Inter',sans-serif}
+    .comment-form-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px}
+    .comment-form-row input[type=text]{flex:1 1 220px;padding:10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#111}
+    .comment-form-row label{display:inline-flex;align-items:center;gap:8px;font-size:0.95rem;color:#334155}
     .reactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .reaction-btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:10px 12px;border-radius:999px;border:1px solid #e0e0e0;background:#f8fafc;cursor:pointer;font-weight:700}
     .reaction-btn:hover{background:#eef6ff;border-color:#cfe2ff}
@@ -330,7 +336,7 @@
         };
       }
 
-      function buildRenderItems(stories) {
+      function buildRenderItems(stories, commentsByKey = new Map()) {
         const topicoGroups = new Map();
         const items = [];
         stories.forEach((story) => {
@@ -339,35 +345,40 @@
             group.push(story);
             topicoGroups.set(story.threadId, group);
           } else {
-            items.push(story);
+            items.push(Object.assign({}, story, { comments: commentsByKey.get(`story-${story.id}`) || [] }));
           }
         });
         topicoGroups.forEach((group) => {
           group.sort((a,b)=> (a.threadIndex || 0) - (b.threadIndex || 0));
           const createdAt = Math.max(...group.map(s=>s.createdAt));
+          const topicoId = group[0].threadId;
           items.push({
             isTopico: true,
-            threadId: group[0].threadId,
+            threadId: topicoId,
             topicoAuthor: group[0].anonymous ? 'Anónimo' : (group[0].name || 'Sem nome'),
             anonymous: group[0].anonymous,
             topicoSegments: group,
+            comments: commentsByKey.get(`topico-${topicoId}`) || [],
             createdAt
           });
         });
         return items.sort((a,b)=> b.createdAt - a.createdAt);
       }
 
-      function renderStories(stories){
+      function renderStories(stories, commentsByKey = new Map()){
         storiesCache = stories.slice();
         feed.innerHTML = '';
         if (stories.length===0) {
           feed.innerHTML = '<div class="card"><p style="margin:0">Ainda não existem partilhas publicadas. Usa a secção acima para seres a primeira pessoa a partilhar a tua experiência.</p></div>';
           return;
         }
-        const renderItems = buildRenderItems(stories);
+        const renderItems = buildRenderItems(stories, commentsByKey);
         renderItems.forEach((item)=>{
           const card = document.createElement('article');
           card.className='story-card card';
+          const itemKey = item.isTopico ? `topico-${item.threadId}` : `story-${item.id}`;
+          const comments = item.comments || [];
+          const commentsHeader = comments.length ? `<div style="margin-top:12px;font-weight:700;color:#1f2937;">${comments.length} comentário${comments.length === 1 ? '' : 's'}</div>` : '';
           if (item.isTopico) {
             const segmentsHtml = item.topicoSegments.map((segment, idx) => `
               <div class="topico-segment" style="margin-bottom:16px;">
@@ -380,12 +391,18 @@
               <div style="margin-bottom:10px;font-weight:700;color:#0f172a;">Tópico com ${item.topicoSegments.length} parte${item.topicoSegments.length === 1 ? '' : 's'}</div>
               ${segmentsHtml}
               <div class="story-author">- ${item.topicoAuthor}</div>
+              ${commentsHeader}
+              ${commentsHtml(comments)}
+              ${commentFormHtml(itemKey, item.topicoSegments[0].id, item.threadId)}
             `;
           } else {
             card.innerHTML = `
               <p class="story-text">${escapeHtml(item.text)}</p>
               <div class="story-author">- ${item.anonymous ? 'Anónimo' : (item.name||'Sem nome')}</div>
               <div class="reactions">${reactionsHtml(item)}</div>
+              ${commentsHeader}
+              ${commentsHtml(comments)}
+              ${commentFormHtml(itemKey, item.id, null)}
             `;
           }
           feed.appendChild(card);
@@ -425,6 +442,57 @@
         }));
       }
 
+      feed.addEventListener('click', async function(event){
+        if (!event.target.matches('.comment-submit')) return;
+        const form = event.target.closest('.comment-form');
+        if (!form) return;
+        const storyId = Number(form.dataset.storyId) || null;
+        const topicoId = form.dataset.topicoId || null;
+        const itemKey = form.dataset.itemKey;
+        const textarea = form.querySelector('.comment-input');
+        const nameInput = form.querySelector('.comment-name');
+        const anonCheckbox = form.querySelector('.comment-anon');
+        const text = textarea ? textarea.value.trim() : '';
+        if (!text) return alert('Escreve um comentário.');
+
+        const name = nameInput ? nameInput.value.trim() : '';
+        const anonymous = anonCheckbox ? anonCheckbox.checked : true;
+        const commentPayload = {
+          nickname: name,
+          is_anonymous: anonymous,
+          comment_text: text,
+          story_id: storyId,
+          thread_id: topicoId || null
+        };
+
+        if (supabaseClient) {
+          const { error } = await supabaseClient
+            .from('story_comments')
+            .insert(commentPayload);
+          if (error) {
+            console.error('Supabase comment error:', error);
+            return setStatus('Nao foi possivel publicar o comentário. Tenta novamente.', 'error');
+          }
+        } else {
+          const comments = getLocalComments();
+          comments.push({
+            id: Date.now() + Math.floor(Math.random()*1000),
+            storyId,
+            threadId: topicoId || null,
+            name,
+            anonymous,
+            text,
+            createdAt: Date.now()
+          });
+          saveLocalComments(comments);
+        }
+
+        textarea.value = '';
+        nameInput.value = '';
+        if (anonCheckbox) anonCheckbox.checked = true;
+        await loadAndRenderStories();
+      });
+
       async function loadRemoteStories(){
         const { data, error } = await supabaseClient
           .from('stories')
@@ -435,16 +503,34 @@
         return (data || []).map(normalizeRemoteStory);
       }
 
+      async function loadRemoteComments(){
+        const { data, error } = await supabaseClient
+          .from('story_comments')
+          .select('id,story_id,thread_id,nickname,is_anonymous,comment_text,created_at')
+          .order('created_at', { ascending: true })
+          .limit(1000);
+        if (error) throw error;
+        return (data || []).map(normalizeRemoteComment);
+      }
+
+      function loadLocalComments(){
+        return getLocalComments().map(normalizeLocalComment);
+      }
+
       async function loadAndRenderStories(){
         if (!supabaseClient) {
           removeLegacySampleStories();
           const stories = getStories().filter(story => !isBannedStory(story)).slice().sort((a,b)=>b.createdAt - a.createdAt);
-          renderStories(stories);
+          const comments = loadLocalComments();
+          const commentsByKey = groupCommentsByKey(comments);
+          renderStories(stories, commentsByKey);
           return;
         }
         try {
           const stories = (await loadRemoteStories()).filter(story => !isBannedStory(story));
-          renderStories(stories);
+          const comments = await loadRemoteComments();
+          const commentsByKey = groupCommentsByKey(comments);
+          renderStories(stories, commentsByKey);
         } catch (err) {
           console.error(err);
           setStatus('Ligacao ao feed partilhado indisponivel. A mostrar modo local.', 'error');
