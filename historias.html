@@ -48,6 +48,12 @@
     .share-name{flex:1 1 240px}
     .share-anon{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-weight:600}
     .share-help{white-space:pre-wrap;background:#f3f8ff;border:1px solid #d5e6ff;border-radius:8px;padding:10px;margin:0 0 10px;color:#204a86}
+    .share-cta{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px;background:#fff;border:1px solid #ececec;border-radius:14px;box-shadow:0 12px 28px rgba(0,0,0,.08);margin-bottom:18px}
+    .share-cta p{margin:0;color:#334155}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000}
+    .modal-overlay.open{display:flex}
+    .modal-card{position:relative;width:100%;max-width:780px;max-height:90vh;overflow:auto;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+    .close-modal{position:absolute;top:14px;right:14px;width:44px;height:44px;border:none;background:rgba(255,255,255,.95);border-radius:50%;cursor:pointer;color:#1f2937;font-size:1.35rem;line-height:1;box-shadow:0 8px 18px rgba(0,0,0,.12)}
     .backend-status{margin:0 0 10px;font-size:.92rem;color:#204a86}
     .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;background:var(--primary);color:#fff;padding:10px 16px;border:none;border-radius:999px;font-weight:700;cursor:pointer}
     body.embedded .top-banner, body.embedded .news-feed, body.embedded .site-nav, body.embedded .tagline, body.embedded footer{display:none !important}
@@ -114,24 +120,37 @@
   </section>
 
   <main class="container">
-    <section id="sharePanel" class="card share-panel">
-      <h2 style="margin-top:0">Partilha de experiências</h2>
-      <p class="share-help">Algo que nunca disse a ninguém é...</p>
-      <p id="storiesBackendStatus" class="backend-status"></p>
-      <div class="share-row">
-        <input id="storyName" class="share-name" type="text" placeholder="Nickname (opcional)">
-        <label class="share-anon"><input id="storyAnon" type="checkbox" checked> Partilhar anonimamente</label>
+    <section class="share-cta">
+      <div>
+        <strong style="display:block;margin-bottom:6px;font-size:1.05rem;color:#111;">Partilha a tua história</strong>
+        <p>Ajuda outras pessoas com a tua experiência e inspira a comunidade. Clica para abrir o formulário.</p>
       </div>
-      <div id="topicoEditor">
-        <div id="topicoParts"></div>
-        <div id="topicoControls" style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:12px;flex-wrap:wrap">
-          <button id="addTopicoPart" class="btn" type="button" style="background:#1d4ed8;">Adicionar nova parte</button>
-          <div style="flex:1 1 auto;min-width:220px;text-align:right;color:#334155;font-size:0.92rem;">Cada parte tem até 10000 caracteres. Quando uma parte encher, podes continuar na próxima parte.</div>
-        </div>
-        <div id="charCounter" style="text-align:right; margin-top:5px; font-size:0.9rem; color:#666;">0 caracteres em 1 parte</div>
-      </div>
-      <div style="text-align:right;margin-top:10px"><button id="submitStory" class="btn">Partilhar experiência</button></div>
+      <button id="openShareModal" class="btn">Partilha a tua história</button>
     </section>
+
+    <div id="shareModal" class="modal-overlay" aria-hidden="true">
+      <div class="modal-card">
+        <button id="closeShareModal" class="close-modal" aria-label="Fechar">×</button>
+        <section id="sharePanel" class="card share-panel" style="margin:0;">
+          <h2 style="margin-top:0">Partilha de experiências</h2>
+          <p class="share-help">Algo que nunca disse a ninguém é...</p>
+          <p id="storiesBackendStatus" class="backend-status"></p>
+          <div class="share-row">
+            <input id="storyName" class="share-name" type="text" placeholder="Nickname (opcional)">
+            <label class="share-anon"><input id="storyAnon" type="checkbox" checked> Partilhar anonimamente</label>
+          </div>
+          <div id="topicoEditor">
+            <div id="topicoParts"></div>
+            <div id="topicoControls" style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:12px;flex-wrap:wrap">
+              <button id="addTopicoPart" class="btn" type="button" style="background:#1d4ed8;">Adicionar nova parte</button>
+              <div style="flex:1 1 auto;min-width:220px;text-align:right;color:#334155;font-size:0.92rem;">Cada parte tem até 10000 caracteres. Quando uma parte encher, podes continuar na próxima parte.</div>
+            </div>
+            <div id="charCounter" style="text-align:right; margin-top:5px; font-size:0.9rem; color:#666;">0 caracteres em 1 parte</div>
+          </div>
+          <div style="text-align:right;margin-top:10px"><button id="submitStory" class="btn">Partilhar experiência</button></div>
+        </section>
+      </div>
+    </div>
 
     <section id="storiesFeed" class="stories-feed"></section>
   </main>
@@ -690,9 +709,36 @@
 
         resetTopicoEditor();
         if (!anonymous) document.getElementById('storyName').value='';
+        setShareModalOpen(false);
         await loadAndRenderStories();
         window.scrollTo({top: 0, behavior:'smooth'});
       });
+
+      const shareModal = document.getElementById('shareModal');
+      const openShareModal = document.getElementById('openShareModal');
+      const closeShareModal = document.getElementById('closeShareModal');
+
+      function setShareModalOpen(open) {
+        if (!shareModal) return;
+        shareModal.classList.toggle('open', open);
+        shareModal.setAttribute('aria-hidden', String(!open));
+        document.body.style.overflow = open ? 'hidden' : 'auto';
+        if (open) {
+          document.getElementById('storyName').focus();
+        }
+      }
+
+      if (openShareModal) {
+        openShareModal.addEventListener('click', () => setShareModalOpen(true));
+      }
+      if (closeShareModal) {
+        closeShareModal.addEventListener('click', () => setShareModalOpen(false));
+      }
+      if (shareModal) {
+        shareModal.addEventListener('click', (event) => {
+          if (event.target === shareModal) setShareModalOpen(false);
+        });
+      }
 
       if (supabaseClient) {
         setStatus('Feed partilhado ativo: novas historias aparecem para toda a comunidade em tempo real.', 'ok');
