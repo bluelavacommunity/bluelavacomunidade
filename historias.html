@@ -118,8 +118,14 @@
         <input id="storyName" class="share-name" type="text" placeholder="Nickname (opcional)">
         <label class="share-anon"><input id="storyAnon" type="checkbox" checked> Partilhar anonimamente</label>
       </div>
-      <textarea id="storyText" placeholder="Algo que nunca disse a ninguém é..."></textarea>
-      <div id="charCounter" style="text-align:right; margin-top:5px; font-size:0.9rem; color:#666;">0 / 10000 caracteres</div>
+      <div id="threadEditor">
+        <div id="threadParts"></div>
+        <div id="threadControls" style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:12px;flex-wrap:wrap">
+          <button id="addThreadPart" class="btn" type="button" style="background:#1d4ed8;">Adicionar nova parte</button>
+          <div style="flex:1 1 auto;min-width:220px;text-align:right;color:#334155;font-size:0.92rem;">Cada parte tem até 10000 caracteres. Quando uma parte encher, podes continuar na próxima parte.</div>
+        </div>
+        <div id="charCounter" style="text-align:right; margin-top:5px; font-size:0.9rem; color:#666;">0 caracteres em 1 parte</div>
+      </div>
       <div style="text-align:right;margin-top:10px"><button id="submitStory" class="btn">Partilhar experiência</button></div>
     </section>
   </main>
@@ -147,21 +153,119 @@
       const supabaseAnonKey = String(config.supabaseAnonKey || '').trim();
       const supabaseEnabled = Boolean(window.supabase && supabaseUrl && supabaseAnonKey);
 
-      // Character counter
-      const storyText = document.getElementById('storyText');
+      // Threaded story editor
+      const threadParts = document.getElementById('threadParts');
+      const addThreadPart = document.getElementById('addThreadPart');
       const charCounter = document.getElementById('charCounter');
-      function updateCounter() {
-        const length = storyText.value.length;
-        charCounter.textContent = `${length} / 10000 caracteres`;
-        if (length > 10000) {
-          charCounter.style.color = '#b42318'; // error color
-        } else if (length > 9000) {
-          charCounter.style.color = '#f59e0b'; // warning color
-        } else {
-          charCounter.style.color = '#666';
-        }
+      function buildThreadPart(text = '') {
+        const partIndex = threadParts.children.length + 1;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'thread-part';
+        wrapper.dataset.index = String(partIndex);
+        wrapper.style.border = '1px solid #d9e2ec';
+        wrapper.style.borderRadius = '10px';
+        wrapper.style.padding = '12px';
+        wrapper.style.background = '#f8fafc';
+
+        const header = document.createElement('div');
+        header.className = 'share-row';
+        header.style.marginBottom = '8px';
+        header.style.justifyContent = 'space-between';
+
+        const label = document.createElement('strong');
+        label.textContent = `Parte ${partIndex}`;
+        label.style.fontSize = '0.95rem';
+
+        const counter = document.createElement('span');
+        counter.className = 'segment-counter';
+        counter.textContent = '0 / 10000 caracteres';
+        counter.style.fontSize = '0.9rem';
+        counter.style.color = '#666';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.textContent = 'Remover parte';
+        removeBtn.style.border = 'none';
+        removeBtn.style.background = 'transparent';
+        removeBtn.style.color = '#1d4ed8';
+        removeBtn.style.fontWeight = '700';
+        removeBtn.style.cursor = 'pointer';
+        removeBtn.style.marginLeft = '12px';
+        removeBtn.addEventListener('click', () => {
+          if (threadParts.children.length === 1) return;
+          wrapper.remove();
+          updateThreadLabels();
+          updateThreadCounter();
+        });
+
+        const topRow = document.createElement('div');
+        topRow.style.display = 'flex';
+        topRow.style.justifyContent = 'space-between';
+        topRow.style.alignItems = 'center';
+        topRow.style.gap = '12px';
+        topRow.appendChild(label);
+        const rightGroup = document.createElement('div');
+        rightGroup.style.display = 'flex';
+        rightGroup.style.alignItems = 'center';
+        rightGroup.style.gap = '12px';
+        rightGroup.appendChild(counter);
+        if (threadParts.children.length > 0) rightGroup.appendChild(removeBtn);
+        topRow.appendChild(rightGroup);
+        wrapper.appendChild(topRow);
+
+        const textarea = document.createElement('textarea');
+        textarea.className = 'story-segment';
+        textarea.placeholder = partIndex === 1 ? 'Algo que nunca disse a ninguém é...' : 'Continua a tua história aqui...';
+        textarea.maxLength = 10000;
+        textarea.style.width = '100%';
+        textarea.style.padding = '10px';
+        textarea.style.border = '1px solid #ddd';
+        textarea.style.borderRadius = '8px';
+        textarea.style.boxSizing = 'border-box';
+        textarea.style.fontFamily = "'Inter',sans-serif";
+        textarea.style.minHeight = '110px';
+        textarea.addEventListener('input', () => {
+          const length = textarea.value.length;
+          counter.textContent = `${length} / 10000 caracteres`;
+          if (length >= 10000 && wrapper.nextElementSibling === null) {
+            addThreadPart.click();
+            const nextTextarea = threadParts.lastElementChild.querySelector('textarea');
+            nextTextarea.focus();
+          }
+          updateThreadCounter();
+        });
+
+        textarea.value = text;
+        wrapper.appendChild(textarea);
+        return wrapper;
       }
-      storyText.addEventListener('input', updateCounter);
+
+      function updateThreadLabels() {
+        Array.from(threadParts.children).forEach((part, index) => {
+          part.dataset.index = String(index + 1);
+          const label = part.querySelector('strong');
+          if (label) label.textContent = `Parte ${index + 1}`;
+          const removeBtn = part.querySelector('button');
+          if (removeBtn) removeBtn.style.display = index === 0 ? 'none' : 'inline-flex';
+        });
+      }
+
+      function updateThreadCounter() {
+        const segments = Array.from(threadParts.querySelectorAll('textarea'));
+        const total = segments.reduce((sum, textarea) => sum + textarea.value.length, 0);
+        charCounter.textContent = `${total} caracteres em ${segments.length} parte${segments.length === 1 ? '' : 's'}`;
+      }
+
+      function addThreadEditorPart(text = '') {
+        const part = buildThreadPart(text);
+        threadParts.appendChild(part);
+        updateThreadLabels();
+        updateThreadCounter();
+        part.querySelector('textarea').focus();
+      }
+
+      addThreadPart.addEventListener('click', () => addThreadEditorPart());
+      addThreadEditorPart();
 
       const EMOJIS = ['🍿','🤯','😢','🫂','😁'];
       const LEGACY_SAMPLE_TEXTS = new Set([
@@ -204,7 +308,7 @@
 
       function isBannedStory(story){
         const text = String(story.text || '').toLowerCase().trim();
-        return text === 'healthcheck story sync test' || text.includes('healthcheck') || text.includes('sync test');
+        return text.includes('healthcheck') || text.includes('sync test');
       }
 
       function reactionsHtml(story){
@@ -213,14 +317,44 @@
       }
 
       function normalizeRemoteStory(row){
+        const metadata = (row.reactions && row.reactions.__meta__) || {};
         return {
           id: row.id,
           name: row.nickname || '',
           anonymous: Boolean(row.is_anonymous),
           text: row.story_text || '',
           reactions: row.reactions || {},
-          createdAt: new Date(row.created_at).getTime() || Date.now()
+          createdAt: new Date(row.created_at).getTime() || Date.now(),
+          threadId: metadata.threadId || null,
+          threadIndex: metadata.threadIndex || null
         };
+      }
+
+      function buildRenderItems(stories) {
+        const threadGroups = new Map();
+        const items = [];
+        stories.forEach((story) => {
+          if (story.threadId) {
+            const group = threadGroups.get(story.threadId) || [];
+            group.push(story);
+            threadGroups.set(story.threadId, group);
+          } else {
+            items.push(story);
+          }
+        });
+        threadGroups.forEach((group) => {
+          group.sort((a,b)=> (a.threadIndex || 0) - (b.threadIndex || 0));
+          const createdAt = Math.max(...group.map(s=>s.createdAt));
+          items.push({
+            isThread: true,
+            threadId: group[0].threadId,
+            threadAuthor: group[0].anonymous ? 'Anónimo' : (group[0].name || 'Sem nome'),
+            anonymous: group[0].anonymous,
+            threadSegments: group,
+            createdAt
+          });
+        });
+        return items.sort((a,b)=> b.createdAt - a.createdAt);
       }
 
       function renderStories(stories){
@@ -230,14 +364,30 @@
           feed.innerHTML = '<div class="card"><p style="margin:0">Ainda não existem partilhas publicadas. Usa a secção acima para seres a primeira pessoa a partilhar a tua experiência.</p></div>';
           return;
         }
-        stories.forEach((s)=>{
+        const renderItems = buildRenderItems(stories);
+        renderItems.forEach((item)=>{
           const card = document.createElement('article');
           card.className='story-card card';
-          card.innerHTML = `
-            <p class="story-text">${escapeHtml(s.text)}</p>
-            <div class="story-author">- ${s.anonymous ? 'Anónimo' : (s.name||'Sem nome')}</div>
-            <div class="reactions">${reactionsHtml(s)}</div>
-          `;
+          if (item.isThread) {
+            const segmentsHtml = item.threadSegments.map((segment, idx) => `
+              <div class="thread-segment" style="margin-bottom:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:0.9rem;font-weight:700;color:#1f4f8f;">Parte ${idx+1} de ${item.threadSegments.length}<span>${segment.reactions ? Object.values(segment.reactions).reduce((sum, value) => sum + (typeof value === 'number' ? value : 0), 0) : 0} reações</span></div>
+                <p class="story-text">${escapeHtml(segment.text)}</p>
+                <div class="reactions">${reactionsHtml(segment)}</div>
+              </div>
+            `).join('');
+            card.innerHTML = `
+              <div style="margin-bottom:10px;font-weight:700;color:#0f172a;">Thread de ${item.threadSegments.length} parte${item.threadSegments.length === 1 ? '' : 's'}</div>
+              ${segmentsHtml}
+              <div class="story-author">- ${item.threadAuthor}</div>
+            `;
+          } else {
+            card.innerHTML = `
+              <p class="story-text">${escapeHtml(item.text)}</p>
+              <div class="story-author">- ${item.anonymous ? 'Anónimo' : (item.name||'Sem nome')}</div>
+              <div class="reactions">${reactionsHtml(item)}</div>
+            `;
+          }
           feed.appendChild(card);
         });
         document.querySelectorAll('.reaction-btn').forEach(b=>b.addEventListener('click', async function(){
@@ -303,22 +453,41 @@
         }
       }
 
+      function getThreadSegments() {
+        return Array.from(threadParts.querySelectorAll('textarea'))
+          .map(textarea => textarea.value.trim())
+          .filter(Boolean);
+      }
+
+      function buildThreadId() {
+        return `thread-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+      }
+
+      function resetThreadEditor() {
+        threadParts.innerHTML = '';
+        addThreadEditorPart();
+        updateThreadCounter();
+      }
+
       document.getElementById('submitStory').addEventListener('click', async function(){
         const name = document.getElementById('storyName').value.trim();
         const anonymous = document.getElementById('storyAnon').checked;
-        const text = document.getElementById('storyText').value.trim();
-        if (!text) return alert('Escreve a tua experiência.');
-        if (text.length > 10000) return alert('A tua história é demasiado longa. O limite é 10000 caracteres.');
+        const segments = getThreadSegments();
+        const totalLength = segments.reduce((sum, value) => sum + value.length, 0);
+        if (totalLength === 0) return alert('Escreve a tua experiência.');
+
+        const threadId = segments.length > 1 ? buildThreadId() : null;
+        const payload = segments.map((segment, index) => ({
+          nickname: name,
+          is_anonymous: anonymous,
+          story_text: segment,
+          reactions: threadId ? { __meta__: { threadId, threadIndex: index + 1 } } : {}
+        }));
 
         if (supabaseClient) {
           const { error } = await supabaseClient
             .from('stories')
-            .insert({
-              nickname: name,
-              is_anonymous: anonymous,
-              story_text: text,
-              reactions: {}
-            });
+            .insert(payload);
           if (error) {
             console.error('Supabase error:', error);
             setStatus(`Erro: ${error.message || 'Nao foi possivel publicar agora. Tenta novamente.'}`, 'error');
@@ -326,18 +495,21 @@
           }
         } else {
           const stories = getStories();
-          stories.unshift({
-            id: Date.now(),
-            name,
-            anonymous,
-            text,
-            reactions: {},
-            createdAt: Date.now()
+          const baseTime = Date.now();
+          payload.forEach((story, index) => {
+            stories.push({
+              id: baseTime + index,
+              name,
+              anonymous,
+              text: story.story_text,
+              reactions: story.reactions,
+              createdAt: baseTime + index
+            });
           });
           saveStories(stories);
         }
 
-        document.getElementById('storyText').value='';
+        resetThreadEditor();
         if (!anonymous) document.getElementById('storyName').value='';
         await loadAndRenderStories();
         window.scrollTo({top: 0, behavior:'smooth'});
