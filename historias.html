@@ -118,10 +118,10 @@
         <input id="storyName" class="share-name" type="text" placeholder="Nickname (opcional)">
         <label class="share-anon"><input id="storyAnon" type="checkbox" checked> Partilhar anonimamente</label>
       </div>
-      <div id="threadEditor">
-        <div id="threadParts"></div>
-        <div id="threadControls" style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:12px;flex-wrap:wrap">
-          <button id="addThreadPart" class="btn" type="button" style="background:#1d4ed8;">Adicionar nova parte</button>
+      <div id="topicoEditor">
+        <div id="topicoParts"></div>
+        <div id="topicoControls" style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:12px;flex-wrap:wrap">
+          <button id="addTopicoPart" class="btn" type="button" style="background:#1d4ed8;">Adicionar nova parte</button>
           <div style="flex:1 1 auto;min-width:220px;text-align:right;color:#334155;font-size:0.92rem;">Cada parte tem até 10000 caracteres. Quando uma parte encher, podes continuar na próxima parte.</div>
         </div>
         <div id="charCounter" style="text-align:right; margin-top:5px; font-size:0.9rem; color:#666;">0 caracteres em 1 parte</div>
@@ -154,13 +154,13 @@
       const supabaseEnabled = Boolean(window.supabase && supabaseUrl && supabaseAnonKey);
 
       // Editor de tópicos de histórias
-      const threadParts = document.getElementById('threadParts');
-      const addThreadPart = document.getElementById('addThreadPart');
+      const topicoParts = document.getElementById('topicoParts');
+      const addTopicoPart = document.getElementById('addTopicoPart');
       const charCounter = document.getElementById('charCounter');
-      function buildThreadPart(text = '') {
-        const partIndex = threadParts.children.length + 1;
+      function buildTopicoPart(text = '') {
+        const partIndex = topicoParts.children.length + 1;
         const wrapper = document.createElement('div');
-        wrapper.className = 'thread-part';
+        wrapper.className = 'topico-part';
         wrapper.dataset.index = String(partIndex);
         wrapper.style.border = '1px solid #d9e2ec';
         wrapper.style.borderRadius = '10px';
@@ -192,10 +192,10 @@
         removeBtn.style.cursor = 'pointer';
         removeBtn.style.marginLeft = '12px';
         removeBtn.addEventListener('click', () => {
-          if (threadParts.children.length === 1) return;
+          if (topicoParts.children.length === 1) return;
           wrapper.remove();
-          updateThreadLabels();
-          updateThreadCounter();
+          updateTopicoLabels();
+          updateTopicoCounter();
         });
 
         const topRow = document.createElement('div');
@@ -209,7 +209,7 @@
         rightGroup.style.alignItems = 'center';
         rightGroup.style.gap = '12px';
         rightGroup.appendChild(counter);
-        if (threadParts.children.length > 0) rightGroup.appendChild(removeBtn);
+        if (topicoParts.children.length > 0) rightGroup.appendChild(removeBtn);
         topRow.appendChild(rightGroup);
         wrapper.appendChild(topRow);
 
@@ -228,11 +228,11 @@
           const length = textarea.value.length;
           counter.textContent = `${length} / 10000 caracteres`;
           if (length >= 10000 && wrapper.nextElementSibling === null) {
-            addThreadPart.click();
-            const nextTextarea = threadParts.lastElementChild.querySelector('textarea');
+            addTopicoPart.click();
+            const nextTextarea = topicoParts.lastElementChild.querySelector('textarea');
             nextTextarea.focus();
           }
-          updateThreadCounter();
+          updateTopicoCounter();
         });
 
         textarea.value = text;
@@ -240,8 +240,8 @@
         return wrapper;
       }
 
-      function updateThreadLabels() {
-        Array.from(threadParts.children).forEach((part, index) => {
+      function updateTopicoLabels() {
+        Array.from(topicoParts.children).forEach((part, index) => {
           part.dataset.index = String(index + 1);
           const label = part.querySelector('strong');
           if (label) label.textContent = `Parte ${index + 1}`;
@@ -250,22 +250,22 @@
         });
       }
 
-      function updateThreadCounter() {
-        const segments = Array.from(threadParts.querySelectorAll('textarea'));
+      function updateTopicoCounter() {
+        const segments = Array.from(topicoParts.querySelectorAll('textarea'));
         const total = segments.reduce((sum, textarea) => sum + textarea.value.length, 0);
         charCounter.textContent = `${total} caracteres em ${segments.length} parte${segments.length === 1 ? '' : 's'}`;
       }
 
-      function addThreadEditorPart(text = '') {
-        const part = buildThreadPart(text);
-        threadParts.appendChild(part);
-        updateThreadLabels();
-        updateThreadCounter();
+      function addTopicoEditorPart(text = '') {
+        const part = buildTopicoPart(text);
+        topicoParts.appendChild(part);
+        updateTopicoLabels();
+        updateTopicoCounter();
         part.querySelector('textarea').focus();
       }
 
-      addThreadPart.addEventListener('click', () => addThreadEditorPart());
-      addThreadEditorPart();
+      addTopicoPart.addEventListener('click', () => addTopicoEditorPart());
+      addTopicoEditorPart();
 
       const EMOJIS = ['🍿','🤯','😢','🫂','😁'];
       const LEGACY_SAMPLE_TEXTS = new Set([
@@ -331,26 +331,26 @@
       }
 
       function buildRenderItems(stories) {
-        const threadGroups = new Map();
+        const topicoGroups = new Map();
         const items = [];
         stories.forEach((story) => {
           if (story.threadId) {
-            const group = threadGroups.get(story.threadId) || [];
+            const group = topicoGroups.get(story.threadId) || [];
             group.push(story);
-            threadGroups.set(story.threadId, group);
+            topicoGroups.set(story.threadId, group);
           } else {
             items.push(story);
           }
         });
-        threadGroups.forEach((group) => {
+        topicoGroups.forEach((group) => {
           group.sort((a,b)=> (a.threadIndex || 0) - (b.threadIndex || 0));
           const createdAt = Math.max(...group.map(s=>s.createdAt));
           items.push({
-            isThread: true,
+            isTopico: true,
             threadId: group[0].threadId,
-            threadAuthor: group[0].anonymous ? 'Anónimo' : (group[0].name || 'Sem nome'),
+            topicoAuthor: group[0].anonymous ? 'Anónimo' : (group[0].name || 'Sem nome'),
             anonymous: group[0].anonymous,
-            threadSegments: group,
+            topicoSegments: group,
             createdAt
           });
         });
@@ -368,18 +368,18 @@
         renderItems.forEach((item)=>{
           const card = document.createElement('article');
           card.className='story-card card';
-          if (item.isThread) {
-            const segmentsHtml = item.threadSegments.map((segment, idx) => `
-              <div class="thread-segment" style="margin-bottom:16px;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:0.9rem;font-weight:700;color:#1f4f8f;">Parte ${idx+1} de ${item.threadSegments.length}<span>${segment.reactions ? Object.values(segment.reactions).reduce((sum, value) => sum + (typeof value === 'number' ? value : 0), 0) : 0} reações</span></div>
+          if (item.isTopico) {
+            const segmentsHtml = item.topicoSegments.map((segment, idx) => `
+              <div class="topico-segment" style="margin-bottom:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:0.9rem;font-weight:700;color:#1f4f8f;">Parte ${idx+1} de ${item.topicoSegments.length}<span>${segment.reactions ? Object.values(segment.reactions).reduce((sum, value) => sum + (typeof value === 'number' ? value : 0), 0) : 0} reações</span></div>
                 <p class="story-text">${escapeHtml(segment.text)}</p>
                 <div class="reactions">${reactionsHtml(segment)}</div>
               </div>
             `).join('');
             card.innerHTML = `
-              <div style="margin-bottom:10px;font-weight:700;color:#0f172a;">Tópico com ${item.threadSegments.length} parte${item.threadSegments.length === 1 ? '' : 's'}</div>
+              <div style="margin-bottom:10px;font-weight:700;color:#0f172a;">Tópico com ${item.topicoSegments.length} parte${item.topicoSegments.length === 1 ? '' : 's'}</div>
               ${segmentsHtml}
-              <div class="story-author">- ${item.threadAuthor}</div>
+              <div class="story-author">- ${item.topicoAuthor}</div>
             `;
           } else {
             card.innerHTML = `
@@ -453,35 +453,35 @@
         }
       }
 
-      function getThreadSegments() {
-        return Array.from(threadParts.querySelectorAll('textarea'))
+      function getTopicoSegments() {
+        return Array.from(topicoParts.querySelectorAll('textarea'))
           .map(textarea => textarea.value.trim())
           .filter(Boolean);
       }
 
-      function buildThreadId() {
-        return `thread-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+      function buildTopicoId() {
+        return `topico-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
       }
 
-      function resetThreadEditor() {
-        threadParts.innerHTML = '';
-        addThreadEditorPart();
-        updateThreadCounter();
+      function resetTopicoEditor() {
+        topicoParts.innerHTML = '';
+        addTopicoEditorPart();
+        updateTopicoCounter();
       }
 
       document.getElementById('submitStory').addEventListener('click', async function(){
         const name = document.getElementById('storyName').value.trim();
         const anonymous = document.getElementById('storyAnon').checked;
-        const segments = getThreadSegments();
+        const segments = getTopicoSegments();
         const totalLength = segments.reduce((sum, value) => sum + value.length, 0);
         if (totalLength === 0) return alert('Escreve a tua experiência.');
 
-        const threadId = segments.length > 1 ? buildThreadId() : null;
+        const topicoId = segments.length > 1 ? buildTopicoId() : null;
         const payload = segments.map((segment, index) => ({
           nickname: name,
           is_anonymous: anonymous,
           story_text: segment,
-          reactions: threadId ? { __meta__: { threadId, threadIndex: index + 1 } } : {}
+          reactions: topicoId ? { __meta__: { threadId: topicoId, threadIndex: index + 1 } } : {}
         }));
 
         if (supabaseClient) {
@@ -509,7 +509,7 @@
           saveStories(stories);
         }
 
-        resetThreadEditor();
+        resetTopicoEditor();
         if (!anonymous) document.getElementById('storyName').value='';
         await loadAndRenderStories();
         window.scrollTo({top: 0, behavior:'smooth'});
