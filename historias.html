@@ -114,8 +114,6 @@
   </section>
 
   <main class="container">
-    <section id="storiesFeed" class="stories-feed"></section>
-
     <section id="sharePanel" class="card share-panel">
       <h2 style="margin-top:0">Partilha de experiências</h2>
       <p class="share-help">Algo que nunca disse a ninguém é...</p>
@@ -134,6 +132,8 @@
       </div>
       <div style="text-align:right;margin-top:10px"><button id="submitStory" class="btn">Partilhar experiência</button></div>
     </section>
+
+    <section id="storiesFeed" class="stories-feed"></section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -336,6 +336,95 @@
         };
       }
 
+      function normalizeLocalStory(story){
+        const metadata = (story.reactions && story.reactions.__meta__) || {};
+        return {
+          id: story.id,
+          name: story.name || '',
+          anonymous: Boolean(story.anonymous),
+          text: story.text || '',
+          reactions: story.reactions || {},
+          createdAt: Number(story.createdAt) || Date.now(),
+          threadId: metadata.threadId || null,
+          threadIndex: metadata.threadIndex || null
+        };
+      }
+
+      function getLocalComments(){
+        try { return JSON.parse(localStorage.getItem('bluelava_story_comments') || '[]'); } catch (e) { return []; }
+      }
+
+      function saveLocalComments(comments){
+        localStorage.setItem('bluelava_story_comments', JSON.stringify(comments));
+      }
+
+      function normalizeRemoteComment(row){
+        return {
+          id: row.id,
+          storyId: Number(row.story_id) || null,
+          threadId: row.thread_id || null,
+          name: row.nickname || '',
+          anonymous: Boolean(row.is_anonymous),
+          text: row.comment_text || '',
+          createdAt: new Date(row.created_at).getTime() || Date.now()
+        };
+      }
+
+      function normalizeLocalComment(item){
+        return {
+          id: item.id,
+          storyId: Number(item.storyId) || null,
+          threadId: item.threadId || null,
+          name: item.name || '',
+          anonymous: Boolean(item.anonymous),
+          text: item.text || '',
+          createdAt: Number(item.createdAt) || Date.now()
+        };
+      }
+
+      function groupCommentsByKey(comments){
+        const map = new Map();
+        (comments || []).forEach(comment => {
+          const key = comment.threadId ? `topico-${comment.threadId}` : `story-${comment.storyId}`;
+          const list = map.get(key) || [];
+          list.push(comment);
+          map.set(key, list);
+        });
+        return map;
+      }
+
+      function commentsHtml(comments){
+        if (!comments || comments.length === 0) return '';
+        return comments.map(comment => `
+          <div class="comment-card">
+            <p style="margin:0">${escapeHtml(comment.text)}</p>
+            <div style="margin-top:8px;font-size:0.9rem;color:#334155;">${comment.anonymous ? 'Anónimo' : escapeHtml(comment.name)} • ${new Date(comment.createdAt).toLocaleDateString('pt-PT', { day:'2-digit', month:'2-digit', year:'numeric' })}</div>
+          </div>
+        `).join('');
+      }
+
+      function commentFormHtml(itemKey, storyId, topicoId){
+        return `
+          <div class="comment-form" data-item-key="${escapeHtml(itemKey)}" data-story-id="${storyId}" data-topico-id="${topicoId || ''}">
+            <textarea class="comment-input" placeholder="Escreve um comentário..."></textarea>
+            <div class="comment-form-row">
+              <input type="text" class="comment-name" placeholder="Nome (opcional)">
+              <label><input type="checkbox" class="comment-anon" checked> Anónimo</label>
+              <button type="button" class="btn comment-submit">Publicar comentário</button>
+            </div>
+          </div>
+        `;
+      }
+
+      function mergeLocalStories(remoteStories){
+        const localStories = getStories().filter(story => !isBannedStory(story));
+        const remoteIds = new Set(remoteStories.map(story => String(story.id)));
+        const normalizedLocal = localStories
+          .map(normalizeLocalStory)
+          .filter(story => !remoteIds.has(String(story.id)));
+        return remoteStories.concat(normalizedLocal).sort((a,b)=>b.createdAt - a.createdAt);
+      }
+
       function buildRenderItems(stories, commentsByKey = new Map()) {
         const topicoGroups = new Map();
         const items = [];
@@ -527,15 +616,19 @@
           return;
         }
         try {
-          const stories = (await loadRemoteStories()).filter(story => !isBannedStory(story));
-          const comments = await loadRemoteComments();
-          const commentsByKey = groupCommentsByKey(comments);
+          const remoteStories = (await loadRemoteStories()).filter(story => !isBannedStory(story));
+          const stories = mergeLocalStories(remoteStories);
+          const remoteComments = await loadRemoteComments();
+          const localComments = loadLocalComments();
+          const commentsByKey = groupCommentsByKey(remoteComments.concat(localComments));
           renderStories(stories, commentsByKey);
         } catch (err) {
           console.error(err);
           setStatus('Ligacao ao feed partilhado indisponivel. A mostrar modo local.', 'error');
           const stories = getStories().slice().sort((a,b)=>b.createdAt - a.createdAt);
-          renderStories(stories);
+          const comments = loadLocalComments();
+          const commentsByKey = groupCommentsByKey(comments);
+          renderStories(stories, commentsByKey);
         }
       }
 
